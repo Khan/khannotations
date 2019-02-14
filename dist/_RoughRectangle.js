@@ -75,12 +75,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         render() {
             const { delay, duration, x1, y1, fillStyle } = this.props;
             const { paths, pathLengths, pathStyle } = this.state;
-            return (React.createElement("svg", { ref: svg => (this._svg = svg), style: {
-                    overflow: "visible",
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                } },
+            return (React.createElement("svg", { ref: svg => (this._svg = svg), className: no_important_1.css(styles.absoluteOverlay) },
                 React.createElement("g", null, paths.map((path, i) => (React.createElement("path", { style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i] + 10, strokeDashoffset: (i % 2 ? -1 : 1) * (pathLengths[i] + 10), transformOrigin: `${x1}px ${y1}px`, animationDelay: `${delay +
                             (i * duration) / paths.length}ms`, animationDuration: `${duration /
                             paths.length}ms`, transform: fillStyle === "solid"
@@ -136,6 +131,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             animationName: scaleAnimation,
             animationTimingFunction: "learner",
             animationFillMode: "forwards",
+        },
+        absoluteOverlay: {
+            overflow: "visible",
+            position: "absolute",
+            left: 0,
+            top: 0,
+            // Chrome/Safari do not render anything with width/height 0
+            width: 1,
+            height: 1,
+            pointerEvents: "none",
         },
     });
 });

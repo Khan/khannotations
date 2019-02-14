@@ -32,12 +32,7 @@ export default class RoughRectangle extends React.Component<Props, State> {
         return (
             <svg
                 ref={svg => (this._svg = svg)}
-                style={{
-                    overflow: "visible",
-                    position: "absolute",
-                    left: 0,
-                    top: 0,
-                }}
+                className={css(styles.absoluteOverlay)}
             >
                 <g>
                     {paths.map((path, i) => (
@@ -184,5 +179,15 @@ const styles = StyleSheet.create({
         animationName: scaleAnimation,
         animationTimingFunction: "learner",
         animationFillMode: "forwards",
+    },
+    absoluteOverlay: {
+        overflow: "visible",
+        position: "absolute",
+        left: 0,
+        top: 0,
+        // Chrome/Safari do not render anything with width/height 0
+        width: 1,
+        height: 1,
+        pointerEvents: "none",
     },
 });
