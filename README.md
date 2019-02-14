@@ -1,68 +1,118 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Khannotations
 
-## Available Scripts
+Khannotations is a React library for rough, animated, annotations.
 
-In the project directory, you can run:
+It uses [RoughJS](https://roughjs.com/) and is made by
+[Khan Academy](https://www.khanacademy.org/).
 
-### `npm start`
+[![View live demo](https://khan.github.io/khannotations/demo.gif)](https://khan.github.io/khannotations)
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Installation
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Khannotations is currently in early development. Once it's used in production at
+Khan Academy, this section will be updated.
 
-### `npm test`
+## Usage
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Inline annotations
 
-### `npm run build`
+Khannotations provides two React components that render inline annotations:
+RoughHighlight and RoughUnderline. You should be able to replace elements like
+`<strong>` or `<u>` with these components.
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+For example, you could replace the following example:
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+```jsx
+Lorem <u>ipsum</u> dolor sit amet.
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+with:
 
-### `npm run eject`
+```jsx
+// This example is in TypeScript.
+// For JavaScript, omit UnderlineStyle/AnimationStrategy.
+import {RoughUnderline, UnderlineStyle, AnimationStrategy} from "@khan/khannotations";
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+// For JavaScript, omit ": AnimationStategy".
+let speedAnimation: AnimationStrategy = {
+    animation: "speed",
+    speed: 5,
+    delay: 100,
+};
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+// For JavaScript, omit ": UnderlineStategy".
+let underlineStyle: UnderlineStyle = {
+    roughness: 3,
+    stroke: "red",
+    strokeWidth: 2,
+    bowing: {
+        bowing: "inverse",
+        ratio: 300,
+    },
+    lift: 3,
+};
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const MyComponent = () => (
+    <span>
+        Lorem{" "}
+        <RoughUnderline animation={speedAnimation} roughStyle={underlineStyle}>
+            ipsum
+        </RoughUnderline>{" }
+        dolor sit amet.
+    </span>
+);
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+Khannotations does not provide defaults, so you'll need to fill out your
+animation strategy and styles yourself. If you find yourself doing this a
+lot, you can always make a wrapper component that renders an annotation with
+your prefered styles. For example, you could make a drop-in replacement for
+`<u>` with:
 
-## Learn More
+```
+const MyUnderline = (children) => (
+    <RoughUnderline animation={speedAnimation} roughStyle={underlineStyle}>
+        {children}
+    </RoughUnderline>
+);
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+See the API docs for full usage.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+### RoughCircledBox
 
-### Code Splitting
+RoughCircledBox is a block element that draws a rough ellipse just touching
+its native bounding box.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+### AnimatedLineDrawing
 
-### Analyzing the Bundle Size
+AnimatedLineDrawing is a block element that draws an SVG path.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
+### AnimatedGroup
 
-### Making a Progressive Web App
+If you want the annotations in a document to be rendered sequentially in
+DOM order, put your annotations in an AnimatedGroup.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
+This works for RoughUnderlines, RoughHighlights, RoughCircledBoxes, and
+AnimatedLineDrawings.
 
-### Advanced Configuration
+## Development
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
+Contributions are welcome.
 
-### Deployment
+To develop Khannotations, you need Yarn.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+To install JS dependencies, run `yarn`.
 
-### `npm run build` fails to minify
+To open the [storybook](https://storybook.js.org/), run `yarn run storybook`.
+This is where you'll probably do most of your work. When you make changes to
+a module, it will be automatically updated in the storybook.
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+To work on the demo page (`./src/_App.tsx`), run `yarn start`.
+
+To build the demo page, API documentation, and production build, run `yarn build`.
+The app is built to the following folders:
+
+-   The demo is built to `./docs`
+-   The API documentation is built to `./docs/api`
+-   The UMD modules are built to `./dist`
