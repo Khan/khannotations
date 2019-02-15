@@ -20,6 +20,7 @@ let durationAnimation: AnimationStrategy = {
 storiesOf("AnimatedLineDrawing", module)
     .add("hand", () => (
         <AnimatedLineDrawing
+            title="A hand"
             animation={speedAnimation}
             className={css(styles.box)}
             pathStyle={{
@@ -32,6 +33,7 @@ storiesOf("AnimatedLineDrawing", module)
     ))
     .add("shape sequence", () => (
         <AnimatedLineDrawing
+            title="A bunch of triangles"
             animation={speedAnimation}
             className={css(styles.box)}
             pathStyle={{
@@ -46,6 +48,7 @@ storiesOf("AnimatedLineDrawing", module)
     ))
     .add("dashed", () => (
         <AnimatedLineDrawing
+            title="A dashed line"
             animation={speedAnimation}
             delayRatio={0.3}
             className={css(styles.bigBox)}
@@ -59,6 +62,7 @@ storiesOf("AnimatedLineDrawing", module)
     ))
     .add("handdrawn dashed", () => (
         <AnimatedLineDrawing
+            title="A handdrawn dashed line"
             animation={speedAnimation}
             delayRatio={0.3}
             className={css(styles.bigBox)}
@@ -72,6 +76,21 @@ storiesOf("AnimatedLineDrawing", module)
     ))
     .add("arrow", () => (
         <AnimatedLineDrawing
+            title="An arrow pointing right"
+            animation={speedAnimation}
+            pathStyle={{
+                stroke: "red",
+                fill: "none",
+                strokeWidth: 4,
+            }}
+            className={css(styles.box)}
+            d="M41.6,157.7c-1.7,2.5-3.4,5-5.1,7.6c12.4-18.3,27.1-35,43.8-49.4C102.1,97,127,82,152.7,68.8c26-13.3,53.2-24.9,81.9-30.8c50.5-10.3,104-2,150.7,19.8s86.8,56.6,118,97.5c-10.8-3.5-21.7-7.1-32.5-10.6 c13.1,6.9,22.3,10.1,36.7,13.9c-2-8.1-3.6-23-5.3-29.3"
+        />
+    ))
+    .add("description", () => (
+        <AnimatedLineDrawing
+            title="An arrow pointing right"
+            desc="This is a longer text that you can find by using a "
             animation={speedAnimation}
             pathStyle={{
                 stroke: "red",
@@ -85,6 +104,7 @@ storiesOf("AnimatedLineDrawing", module)
     .add("speed", () => (
         <div>
             <AnimatedLineDrawing
+                title="An arrow pointing right"
                 animation={speedAnimation}
                 pathStyle={{
                     stroke: "red",
@@ -95,6 +115,7 @@ storiesOf("AnimatedLineDrawing", module)
                 d="M41.6,157.7c-1.7,2.5-3.4,5-5.1,7.6c12.4-18.3,27.1-35,43.8-49.4C102.1,97,127,82,152.7,68.8c26-13.3,53.2-24.9,81.9-30.8c50.5-10.3,104-2,150.7,19.8s86.8,56.6,118,97.5c-10.8-3.5-21.7-7.1-32.5-10.6 c13.1,6.9,22.3,10.1,36.7,13.9c-2-8.1-3.6-23-5.3-29.3"
             />
             <AnimatedLineDrawing
+                title="A hand"
                 animation={speedAnimation}
                 className={css(styles.box)}
                 pathStyle={{
@@ -109,6 +130,7 @@ storiesOf("AnimatedLineDrawing", module)
     .add("duration", () => (
         <div>
             <AnimatedLineDrawing
+                title="An arrow pointing right"
                 animation={durationAnimation}
                 pathStyle={{
                     stroke: "red",
@@ -119,6 +141,7 @@ storiesOf("AnimatedLineDrawing", module)
                 d="M41.6,157.7c-1.7,2.5-3.4,5-5.1,7.6c12.4-18.3,27.1-35,43.8-49.4C102.1,97,127,82,152.7,68.8c26-13.3,53.2-24.9,81.9-30.8c50.5-10.3,104-2,150.7,19.8s86.8,56.6,118,97.5c-10.8-3.5-21.7-7.1-32.5-10.6 c13.1,6.9,22.3,10.1,36.7,13.9c-2-8.1-3.6-23-5.3-29.3"
             />
             <AnimatedLineDrawing
+                title="A hand"
                 animation={durationAnimation}
                 className={css(styles.box)}
                 pathStyle={{

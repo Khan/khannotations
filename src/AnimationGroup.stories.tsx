@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {storiesOf} from "@storybook/react";
-import {StyleSheet, css} from "aphrodite/no-important";
+import {css} from "aphrodite/no-important";
 
 import {
     RoughUnderline,
@@ -48,6 +48,7 @@ storiesOf("AnimationGroup", module)
                 </RoughUnderline>
                 <div>
                     <AnimatedLineDrawing
+                        title="A hand"
                         animation={speedAnimation}
                         pathStyle={{
                             stroke: "red",
@@ -88,6 +89,7 @@ storiesOf("AnimationGroup", module)
                         </RoughUnderline>
                         <div>
                             <AnimatedLineDrawing
+                                title="A hand"
                                 animation={speedAnimation}
                                 pathStyle={{
                                     stroke: "red",

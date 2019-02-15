@@ -33,6 +33,7 @@ export default class RoughRectangle extends React.Component<Props, State> {
             <svg
                 ref={svg => (this._svg = svg)}
                 className={css(styles.absoluteOverlay)}
+                aria-hidden={true}
             >
                 <g>
                     {paths.map((path, i) => (

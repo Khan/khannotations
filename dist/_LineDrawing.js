@@ -24,14 +24,17 @@ var __importStar = (this && this.__importStar) || function (mod) {
             this.state = {
                 pathLengths: [],
                 paths: [],
+                uniqueId: null,
             };
             this._svg = null;
         }
         render() {
-            const { delay, duration, pathStyle, consistentDirection, className, style, width, height, delayRatio: delayPercent, } = this.props;
-            const { paths, pathLengths } = this.state;
-            let durationMultiplier = 1.0 - (delayPercent || 0);
-            return (React.createElement("svg", { ref: svg => (this._svg = svg), viewBox: width && height ? `0 0 ${width} ${height}` : undefined, className: className == null ? no_important_1.css(styles.absoluteOverlay) : className, style: style, preserveAspectRatio: "true" },
+            const { title, delay, duration, pathStyle, consistentDirection, className, style, width, height, delayRatio, desc, } = this.props;
+            const { paths, pathLengths, uniqueId } = this.state;
+            let durationMultiplier = 1.0 - (delayRatio || 0);
+            return (React.createElement("svg", { ref: svg => (this._svg = svg), viewBox: width && height ? `0 0 ${width} ${height}` : undefined, className: className == null ? no_important_1.css(styles.absoluteOverlay) : className, style: style, preserveAspectRatio: "xMidYMid meet", "aria-hidden": title === null ? true : false },
+                title && uniqueId ? (React.createElement("title", { id: `${uniqueId}_title` }, title)) : null,
+                desc && uniqueId ? (React.createElement("desc", { id: `${uniqueId}_desc` }, desc)) : null,
                 React.createElement("g", null, paths.map((path, i) => (React.createElement("path", { style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i], strokeDashoffset: (i % 2 === 0 || consistentDirection
                             ? 1
                             : -1) * pathLengths[i], animationDelay: `${delay +
@@ -44,7 +47,12 @@ var __importStar = (this && this.__importStar) || function (mod) {
             return (paths.length !== newState.paths.length ||
                 paths.some((path, i) => path !== newState.paths[i]));
         }
-        static getDerivedStateFromProps(props) {
+        componentDidMount() {
+            this.setState({
+                uniqueId: `_khannotations_LineDrawing_${Math.random()}`,
+            });
+        }
+        static getDerivedStateFromProps(props, state) {
             const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
             const paths = props.d
                 .split("M")
@@ -57,6 +65,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
             return {
                 pathLengths,
                 paths,
+                uniqueId: state.uniqueId,
             };
         }
     }

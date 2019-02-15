@@ -14,6 +14,10 @@ import {AnimationStrategy} from "./AnimationStrategy";
  */
 export interface BowingStrategyFixed {
     bowing: "fixed";
+    /**
+     * Numerical value indicating how curvy the lines are when drawing a
+     * sketch. A value of 0 will cause straight lines. Default value is 1.
+     */
     amount: number;
 }
 
@@ -22,6 +26,12 @@ export interface BowingStrategyFixed {
  */
 export interface BowingStrategyInverse {
     bowing: "inverse";
+
+    /**
+     * Bowing amount per inverse pixel.
+     *
+     * A typical value is 300.
+     */
     ratio: number;
 }
 
@@ -48,6 +58,9 @@ export interface UnderlineStyle {
     stroke: string;
     /**
      * Numerical value to set the width of the strokes (in pixels).
+     *
+     * Can be specicied in any of the
+     * [ways to describe color in CSS](https://developer.mozilla.org/en-US/docs/Web/HTML/Applying_color#How_to_describe_a_color).
      */
     strokeWidth: number;
     /**
@@ -128,12 +141,7 @@ class _RoughUnderline
     }
     /** @hidden */
     render() {
-        const {
-            animation,
-            roughStyle: underlineStyle,
-            children,
-            group,
-        } = this.props;
+        const {animation, roughStyle, children, group} = this.props;
 
         return (
             <MeasureLines text={children}>
@@ -190,21 +198,32 @@ class _RoughUnderline
 
                     return (
                         <>
-                            {lines.map(({left, right, bottom}, i) => (
-                                <RoughLine
-                                    key={i}
-                                    x1={left}
-                                    x2={right}
-                                    y1={bottom - underlineStyle.lift}
-                                    y2={bottom - underlineStyle.lift}
-                                    roughness={underlineStyle.roughness}
-                                    stroke={underlineStyle.stroke}
-                                    strokeWidth={underlineStyle.strokeWidth}
-                                    duration={durations[i]}
-                                    delay={delays[i]}
-                                    bowing={300 / (right - left)}
-                                />
-                            ))}
+                            {lines.map(({left, right, bottom}, i) => {
+                                let bowing;
+                                if (roughStyle.bowing.bowing === "fixed") {
+                                    bowing = roughStyle.bowing.amount;
+                                } else {
+                                    bowing =
+                                        roughStyle.bowing.ratio /
+                                        (right - left);
+                                }
+
+                                return (
+                                    <RoughLine
+                                        key={i}
+                                        x1={left}
+                                        x2={right}
+                                        y1={bottom - roughStyle.lift}
+                                        y2={bottom - roughStyle.lift}
+                                        roughness={roughStyle.roughness}
+                                        stroke={roughStyle.stroke}
+                                        strokeWidth={roughStyle.strokeWidth}
+                                        duration={durations[i]}
+                                        delay={delays[i]}
+                                        bowing={bowing}
+                                    />
+                                );
+                            })}
                         </>
                     );
                 }}

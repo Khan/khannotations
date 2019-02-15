@@ -60,7 +60,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
      * Without **AnimationGroup**, both animations would happen at the same time.
      *
      * ```
-     * import {AnimationGroup, RoughUnderline} from "@khan/khannotations";
+     * import {AnimationGroup, RoughUnderline} from "@khanacademy/khannotations";
      *
      * // ...
      *
@@ -87,7 +87,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
      * work:
      *
      * ```
-     * import {AnimationGroup, RoughUnderline} from "@khan/khannotations";
+     * import {AnimationGroup, RoughUnderline} from "@khanacademy/khannotations";
      *
      * // ...
      *
@@ -127,7 +127,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
      * done via the [[ConnectToAnimationGroup]] component:
      *
      * ```
-     * import {ConnectToAnimationGroup} from "@khan/khannotations";
+     * import {ConnectToAnimationGroup} from "@khanacademy/khannotations";
      *
      * // ...
      *

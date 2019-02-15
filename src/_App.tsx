@@ -58,6 +58,7 @@ const Logo = () => (
             height={LOGO_SIZE}
             viewBox="0 0 24.710121870040894 23.279998779296875"
             style={{overflow: "visible"}}
+            aria-hidden={true}
         >
             <path
                 fill={KHAN_GREEN_TM}
@@ -65,6 +66,7 @@ const Logo = () => (
             />
         </svg>
         <AnimatedLineDrawing
+            title="Khan Academy logo"
             animation={slowAnimation}
             pathStyle={{
                 stroke: "white",

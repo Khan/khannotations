@@ -1,5 +1,4 @@
 import * as React from "react";
-import {StyleSheet, css} from "aphrodite/no-important";
 import rough from "./vendor/rough/src/wrappers/rough";
 import {Options as RoughJSOptions} from "./vendor/rough/src/core";
 import InternalLineDrawing from "./_LineDrawing";
@@ -30,6 +29,7 @@ export default class RoughEllipse extends React.PureComponent<Props> {
         return (
             d && (
                 <InternalLineDrawing
+                    title={null}
                     delay={delay}
                     duration={duration}
                     d={d}
@@ -85,17 +85,3 @@ export default class RoughEllipse extends React.PureComponent<Props> {
         });
     };
 }
-
-const lineAnimation = {
-    to: {
-        strokeDashoffset: 0,
-    },
-};
-
-const styles = StyleSheet.create({
-    animatedLine: {
-        animationName: lineAnimation,
-        animationTimingFunction: "linear",
-        animationFillMode: "forwards",
-    },
-});

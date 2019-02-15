@@ -65,7 +65,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         /** @hidden */
         render() {
-            const { animation, roughStyle: underlineStyle, children, group, } = this.props;
+            const { animation, roughStyle, children, group } = this.props;
             return (React.createElement(_MeasureLines_1.default, { text: children }, lines => {
                 let durations;
                 let gap;
@@ -98,7 +98,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                     group.register(this);
                     return null;
                 }
-                return (React.createElement(React.Fragment, null, lines.map(({ left, right, bottom }, i) => (React.createElement(_RoughLine_1.default, { key: i, x1: left, x2: right, y1: bottom - underlineStyle.lift, y2: bottom - underlineStyle.lift, roughness: underlineStyle.roughness, stroke: underlineStyle.stroke, strokeWidth: underlineStyle.strokeWidth, duration: durations[i], delay: delays[i], bowing: 300 / (right - left) })))));
+                return (React.createElement(React.Fragment, null, lines.map(({ left, right, bottom }, i) => {
+                    let bowing;
+                    if (roughStyle.bowing.bowing === "fixed") {
+                        bowing = roughStyle.bowing.amount;
+                    }
+                    else {
+                        bowing =
+                            roughStyle.bowing.ratio /
+                                (right - left);
+                    }
+                    return (React.createElement(_RoughLine_1.default, { key: i, x1: left, x2: right, y1: bottom - roughStyle.lift, y2: bottom - roughStyle.lift, roughness: roughStyle.roughness, stroke: roughStyle.stroke, strokeWidth: roughStyle.strokeWidth, duration: durations[i], delay: delays[i], bowing: bowing }));
+                })));
             }));
         }
     }

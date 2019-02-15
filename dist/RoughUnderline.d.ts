@@ -5,6 +5,10 @@ import { AnimationStrategy } from "./AnimationStrategy";
  */
 export interface BowingStrategyFixed {
     bowing: "fixed";
+    /**
+     * Numerical value indicating how curvy the lines are when drawing a
+     * sketch. A value of 0 will cause straight lines. Default value is 1.
+     */
     amount: number;
 }
 /**
@@ -12,6 +16,11 @@ export interface BowingStrategyFixed {
  */
 export interface BowingStrategyInverse {
     bowing: "inverse";
+    /**
+     * Bowing amount per inverse pixel.
+     *
+     * A typical value is 300.
+     */
     ratio: number;
 }
 /**
@@ -36,6 +45,9 @@ export interface UnderlineStyle {
     stroke: string;
     /**
      * Numerical value to set the width of the strokes (in pixels).
+     *
+     * Can be specicied in any of the
+     * [ways to describe color in CSS](https://developer.mozilla.org/en-US/docs/Web/HTML/Applying_color#How_to_describe_a_color).
      */
     strokeWidth: number;
     /**

@@ -92,7 +92,7 @@ export interface AnimationGroupProps {
  * Without **AnimationGroup**, both animations would happen at the same time.
  *
  * ```
- * import {AnimationGroup, RoughUnderline} from "@khan/khannotations";
+ * import {AnimationGroup, RoughUnderline} from "@khanacademy/khannotations";
  *
  * // ...
  *
@@ -119,7 +119,7 @@ export interface AnimationGroupProps {
  * work:
  *
  * ```
- * import {AnimationGroup, RoughUnderline} from "@khan/khannotations";
+ * import {AnimationGroup, RoughUnderline} from "@khanacademy/khannotations";
  *
  * // ...
  *
@@ -159,7 +159,7 @@ export interface AnimationGroupProps {
  * done via the [[ConnectToAnimationGroup]] component:
  *
  * ```
- * import {ConnectToAnimationGroup} from "@khan/khannotations";
+ * import {ConnectToAnimationGroup} from "@khanacademy/khannotations";
  *
  * // ...
  *

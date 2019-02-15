@@ -23,13 +23,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         if (v !== undefined) module.exports = v;
     }
     else if (typeof define === "function" && define.amd) {
-        define(["require", "exports", "react", "aphrodite/no-important", "./vendor/rough/src/wrappers/rough", "./_LineDrawing"], factory);
+        define(["require", "exports", "react", "./vendor/rough/src/wrappers/rough", "./_LineDrawing"], factory);
     }
 })(function (require, exports) {
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     const React = __importStar(require("react"));
-    const no_important_1 = require("aphrodite/no-important");
     const rough_1 = __importDefault(require("./vendor/rough/src/wrappers/rough"));
     const _LineDrawing_1 = __importDefault(require("./_LineDrawing"));
     class RoughLine extends React.PureComponent {
@@ -59,7 +58,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         render() {
             const { delay, duration } = this.props;
             const { d, pathStyle } = this.state;
-            return (d && (React.createElement(_LineDrawing_1.default, { delay: delay, duration: duration, d: d, pathStyle: pathStyle })));
+            return (d && (React.createElement(_LineDrawing_1.default, { title: null, delay: delay, duration: duration, d: d, pathStyle: pathStyle })));
         }
         componentDidMount() {
             this._reset();
@@ -75,17 +74,5 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
     }
     exports.default = RoughLine;
-    const lineAnimation = {
-        to: {
-            strokeDashoffset: 0,
-        },
-    };
-    const styles = no_important_1.StyleSheet.create({
-        animatedLine: {
-            animationName: lineAnimation,
-            animationTimingFunction: "linear",
-            animationFillMode: "forwards",
-        },
-    });
 });
 //# sourceMappingURL=_RoughLine.js.map

@@ -5,6 +5,20 @@ import { AnimationStrategy } from "./AnimationStrategy";
  */
 export interface AnimatedLineDrawingProps {
     /**
+     * A string for hovertext and screenreaders.
+     *
+     * If this animated line should not be visible to screenreaders, pass
+     * null instead.
+     */
+    title: string | null;
+    /**
+     * A string describing the line drawing in more detail, for screenreaders.
+     *
+     * Set this property if the line animation is complex and meaningful, and
+     * "title" cannot fully explain the line drawing.
+     */
+    desc?: string;
+    /**
      * The rules to describe how quickly this component should animate.
      */
     animation: AnimationStrategy;

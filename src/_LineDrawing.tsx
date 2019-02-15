@@ -7,6 +7,14 @@ export interface AnimationSettings {
 }
 
 interface InternalLineDrawingProps extends AnimationSettings {
+    /// The title of the SVG, or `null` if it should be hidden to
+    /// screenreaders.
+    title: string | null;
+
+    /// A longer description, for screenreaders, if this is a complex
+    /// drawing.
+    desc?: string;
+
     d: string;
     pathStyle: React.CSSProperties;
     // If true, we don't alternate directions for every path.
@@ -21,6 +29,7 @@ interface InternalLineDrawingProps extends AnimationSettings {
 type State = {
     paths: string[];
     pathLengths: number[];
+    uniqueId: string | null;
 };
 
 export default class InternalLineDrawing extends React.Component<
@@ -29,12 +38,14 @@ export default class InternalLineDrawing extends React.Component<
     state: State = {
         pathLengths: [],
         paths: [],
+        uniqueId: null,
     };
 
     _svg: SVGSVGElement | null = null;
 
     render() {
         const {
+            title,
             delay,
             duration,
             pathStyle,
@@ -43,10 +54,11 @@ export default class InternalLineDrawing extends React.Component<
             style,
             width,
             height,
-            delayRatio: delayPercent,
+            delayRatio,
+            desc,
         } = this.props;
-        const {paths, pathLengths} = this.state;
-        let durationMultiplier = 1.0 - (delayPercent || 0);
+        const {paths, pathLengths, uniqueId} = this.state;
+        let durationMultiplier = 1.0 - (delayRatio || 0);
         return (
             <svg
                 ref={svg => (this._svg = svg)}
@@ -55,8 +67,15 @@ export default class InternalLineDrawing extends React.Component<
                     className == null ? css(styles.absoluteOverlay) : className
                 }
                 style={style}
-                preserveAspectRatio="true"
+                preserveAspectRatio="xMidYMid meet"
+                aria-hidden={title === null ? true : false}
             >
+                {title && uniqueId ? (
+                    <title id={`${uniqueId}_title`}>{title}</title>
+                ) : null}
+                {desc && uniqueId ? (
+                    <desc id={`${uniqueId}_desc`}>{desc}</desc>
+                ) : null}
                 <g>
                     {paths.map((path, i) => (
                         <path
@@ -92,7 +111,16 @@ export default class InternalLineDrawing extends React.Component<
         );
     }
 
-    static getDerivedStateFromProps(props: InternalLineDrawingProps): State {
+    componentDidMount() {
+        this.setState({
+            uniqueId: `_khannotations_LineDrawing_${Math.random()}`,
+        });
+    }
+
+    static getDerivedStateFromProps(
+        props: InternalLineDrawingProps,
+        state: State,
+    ): State {
         const pathEl = document.createElementNS(
             "http://www.w3.org/2000/svg",
             "path",
@@ -109,6 +137,7 @@ export default class InternalLineDrawing extends React.Component<
         return {
             pathLengths,
             paths,
+            uniqueId: state.uniqueId,
         };
     }
 }

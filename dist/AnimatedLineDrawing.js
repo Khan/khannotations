@@ -90,7 +90,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
         }
         /** @hidden */
         render() {
-            let { animation, className, delayRatio } = this.props;
+            let { animation, className, delayRatio, title } = this.props;
             const { width, height } = this.state;
             let duration;
             let delay;
@@ -116,7 +116,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             if (!this.state.triggered && this.props.group) {
                 return React.createElement("div", { className: className });
             }
-            return (React.createElement(_LineDrawing_1.default, { className: className || "", delay: delay, duration: duration, d: this.props.d, pathStyle: this.props.pathStyle, width: width, height: height, consistentDirection: true, delayRatio: delayRatio }));
+            return (React.createElement(_LineDrawing_1.default, { title: title, className: className || "", delay: delay, duration: duration, d: this.props.d, pathStyle: this.props.pathStyle, width: width, height: height, consistentDirection: true, delayRatio: delayRatio }));
         }
     }
     /**

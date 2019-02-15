@@ -4,6 +4,8 @@ export interface AnimationSettings {
     duration: number;
 }
 interface InternalLineDrawingProps extends AnimationSettings {
+    title: string | null;
+    desc?: string;
     d: string;
     pathStyle: React.CSSProperties;
     consistentDirection?: boolean;
@@ -16,13 +18,15 @@ interface InternalLineDrawingProps extends AnimationSettings {
 declare type State = {
     paths: string[];
     pathLengths: number[];
+    uniqueId: string | null;
 };
 export default class InternalLineDrawing extends React.Component<InternalLineDrawingProps> {
     state: State;
     _svg: SVGSVGElement | null;
     render(): JSX.Element;
     shouldComponentUpdate(newProps: InternalLineDrawingProps, newState: State): boolean;
-    static getDerivedStateFromProps(props: InternalLineDrawingProps): State;
+    componentDidMount(): void;
+    static getDerivedStateFromProps(props: InternalLineDrawingProps, state: State): State;
 }
 export {};
 //# sourceMappingURL=_LineDrawing.d.ts.map

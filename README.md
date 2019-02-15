@@ -40,7 +40,7 @@ let speedAnimation: AnimationStrategy = {
     delay: 100,
 };
 
-// For JavaScript, omit ": UnderlineStategy".
+// For JavaScript, omit ": UnderlineStyle".
 let underlineStyle: UnderlineStyle = {
     roughness: 3,
     stroke: "red",

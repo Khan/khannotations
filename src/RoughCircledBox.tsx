@@ -24,6 +24,9 @@ export interface RoughCircledBoxStyle {
     roughness: number;
     /**
      * String value representing the color of the drawn objects.
+     *
+     * Can be specicied in any of the
+     * [ways to describe color in CSS](https://developer.mozilla.org/en-US/docs/Web/HTML/Applying_color#How_to_describe_a_color).
      */
     stroke: string;
     /**

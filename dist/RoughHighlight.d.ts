@@ -14,6 +14,9 @@ export interface HighlightStyle {
     roughness: number;
     /**
      * String value representing the color used to fill a shape.
+     *
+     * Can be specicied in any of the
+     * [ways to describe color in CSS](https://developer.mozilla.org/en-US/docs/Web/HTML/Applying_color#How_to_describe_a_color).
      */
     fill: string;
 }
