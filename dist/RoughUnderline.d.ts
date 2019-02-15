@@ -7,7 +7,9 @@ export interface BowingStrategyFixed {
     bowing: "fixed";
     /**
      * Numerical value indicating how curvy the lines are when drawing a
-     * sketch. A value of 0 will cause straight lines. Default value is 1.
+     * sketch. A value of 0 will cause straight lines.
+     *
+     * 1 is a reasonable value.
      */
     amount: number;
 }
