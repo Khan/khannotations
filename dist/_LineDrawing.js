@@ -32,7 +32,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
             const { title, delay, duration, pathStyle, consistentDirection, className, style, width, height, delayRatio, desc, } = this.props;
             const { paths, pathLengths, uniqueId } = this.state;
             let durationMultiplier = 1.0 - (delayRatio || 0);
-            return (React.createElement("svg", { ref: svg => (this._svg = svg), viewBox: width && height ? `0 0 ${width} ${height}` : undefined, className: className == null ? no_important_1.css(styles.absoluteOverlay) : className, style: style, preserveAspectRatio: "xMidYMid meet", "aria-hidden": title === null ? true : false },
+            return (React.createElement("svg", { ref: svg => (this._svg = svg), viewBox: width && height ? `0 0 ${width} ${height}` : undefined, className: className == null ? no_important_1.css(styles.absoluteOverlay) : className, style: style, preserveAspectRatio: "xMidYMid meet", "aria-hidden": title === null ? true : false, "aria-labelledby": `${uniqueId}_title ${uniqueId}_desc` },
                 title && uniqueId ? (React.createElement("title", { id: `${uniqueId}_title` }, title)) : null,
                 desc && uniqueId ? (React.createElement("desc", { id: `${uniqueId}_desc` }, desc)) : null,
                 React.createElement("g", null, paths.map((path, i) => (React.createElement("path", { style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i], strokeDashoffset: (i % 2 === 0 || consistentDirection

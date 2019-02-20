@@ -68,6 +68,12 @@ class _RoughHighlight
 
     estimatedDuration: number | null = null;
 
+    componentWillUnmount() {
+        if (this.props.group) {
+            this.props.group.unregister(this);
+        }
+    }
+
     /** @hidden */
     render() {
         const {children, animation, roughStyle, group} = this.props;

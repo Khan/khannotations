@@ -40,6 +40,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
             };
             this.estimatedDuration = null;
         }
+        componentWillUnmount() {
+            if (this.props.group) {
+                this.props.group.unregister(this);
+            }
+        }
         /** @hidden */
         render() {
             const { children, animation, roughStyle, group } = this.props;

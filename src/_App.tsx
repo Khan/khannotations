@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     pageContainer: {
         maxWidth: 768,
         margin: "auto",
-        fontFamily: '"Comic Sans MS", "Comic Sans", cursive, sans-serif',
+        fontFamily:
+            '"Comic Sans MS", "Comic Sans", "Chalkboard", "ChalkboardSE-Regular", cursive, sans-serif',
         color: OFF_BLACK,
         position: "relative",
         paddingBottom: 40,

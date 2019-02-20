@@ -1,9 +1,7 @@
 import * as React from "react";
-export interface AnimationSettings {
+interface InternalLineDrawingProps {
     delay: number;
     duration: number;
-}
-interface InternalLineDrawingProps extends AnimationSettings {
     title: string | null;
     desc?: string;
     d: string;

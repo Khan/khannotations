@@ -216,6 +216,10 @@ class _RoughCircledBox
             clearInterval(this._interval);
             this._interval = null;
         }
+
+        if (this.props.group) {
+            this.props.group.unregister(this);
+        }
     }
 
     /** @ignore */
@@ -228,6 +232,7 @@ class _RoughCircledBox
         }
 
         if (group && !this.state.triggered) {
+            // TODO(joshuan): Do not hardcode this
             this.estimatedDuration = 400;
             group.register(this);
         }

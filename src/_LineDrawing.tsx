@@ -1,12 +1,10 @@
 import * as React from "react";
 import {StyleSheet, css} from "aphrodite/no-important";
 
-export interface AnimationSettings {
+interface InternalLineDrawingProps {
     delay: number;
     duration: number;
-}
 
-interface InternalLineDrawingProps extends AnimationSettings {
     /// The title of the SVG, or `null` if it should be hidden to
     /// screenreaders.
     title: string | null;
@@ -69,6 +67,7 @@ export default class InternalLineDrawing extends React.Component<
                 style={style}
                 preserveAspectRatio="xMidYMid meet"
                 aria-hidden={title === null ? true : false}
+                aria-labelledby={`${uniqueId}_title ${uniqueId}_desc`}
             >
                 {title && uniqueId ? (
                     <title id={`${uniqueId}_title`}>{title}</title>

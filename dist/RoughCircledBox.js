@@ -155,6 +155,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 clearInterval(this._interval);
                 this._interval = null;
             }
+            if (this.props.group) {
+                this.props.group.unregister(this);
+            }
         }
         /** @ignore */
         render() {
@@ -164,6 +167,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
                 return children;
             }
             if (group && !this.state.triggered) {
+                // TODO(joshuan): Do not hardcode this
                 this.estimatedDuration = 400;
                 group.register(this);
             }
