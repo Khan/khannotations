@@ -1,11 +1,11 @@
 {
-  "main.js": "/khannotations/static/js/main.4fe7ca42.chunk.js",
-  "main.js.map": "/khannotations/static/js/main.4fe7ca42.chunk.js.map",
+  "main.js": "/khannotations/static/js/main.bbb3ab40.chunk.js",
+  "main.js.map": "/khannotations/static/js/main.bbb3ab40.chunk.js.map",
   "runtime~main.js": "/khannotations/static/js/runtime~main.c697033e.js",
   "runtime~main.js.map": "/khannotations/static/js/runtime~main.c697033e.js.map",
   "static/js/2.fd789a5b.chunk.js": "/khannotations/static/js/2.fd789a5b.chunk.js",
   "static/js/2.fd789a5b.chunk.js.map": "/khannotations/static/js/2.fd789a5b.chunk.js.map",
   "index.html": "/khannotations/index.html",
-  "precache-manifest.ff308c9fdce7b882583e31f9ce46140d.js": "/khannotations/precache-manifest.ff308c9fdce7b882583e31f9ce46140d.js",
+  "precache-manifest.cf13ca0ab2f714734f7844eb80546013.js": "/khannotations/precache-manifest.cf13ca0ab2f714734f7844eb80546013.js",
   "service-worker.js": "/khannotations/service-worker.js"
 }

@@ -5,6 +5,10 @@ import { AnimationStrategy } from "./AnimationStrategy";
  */
 export interface AnimatedLineDrawingProps {
     /**
+     * If true, do not render a wrapping svg
+     */
+    bare?: boolean;
+    /**
      * A string for hovertext and screenreaders.
      *
      * If this animated line should not be visible to screenreaders, pass

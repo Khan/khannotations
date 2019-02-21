@@ -2,6 +2,7 @@ import * as React from "react";
 interface InternalLineDrawingProps {
     delay: number;
     duration: number;
+    bare?: boolean;
     title: string | null;
     desc?: string;
     d: string;
@@ -20,8 +21,7 @@ declare type State = {
 };
 export default class InternalLineDrawing extends React.Component<InternalLineDrawingProps> {
     state: State;
-    _svg: SVGSVGElement | null;
-    render(): JSX.Element;
+    render(): JSX.Element | JSX.Element[];
     shouldComponentUpdate(newProps: InternalLineDrawingProps, newState: State): boolean;
     componentDidMount(): void;
     static getDerivedStateFromProps(props: InternalLineDrawingProps, state: State): State;

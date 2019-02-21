@@ -13,6 +13,11 @@ import InternalLineDrawing from "./_LineDrawing";
  */
 export interface AnimatedLineDrawingProps {
     /**
+     * If true, do not render a wrapping svg
+     */
+    bare?: boolean;
+
+    /**
      * A string for hovertext and screenreaders.
      *
      * If this animated line should not be visible to screenreaders, pass
@@ -178,7 +183,7 @@ class _AnimatedLineDrawing
 
     /** @hidden */
     render() {
-        let {animation, className, delayRatio, title} = this.props;
+        let {animation, className, delayRatio, title, bare} = this.props;
         const {width, height} = this.state;
 
         let duration;
@@ -202,7 +207,7 @@ class _AnimatedLineDrawing
         }
 
         if (duration !== this.estimatedDuration && this.props.group) {
-            this.estimatedDuration = duration;
+            this.estimatedDuration = duration + delay;
             this.props.group.register(this);
         }
 
@@ -221,6 +226,7 @@ class _AnimatedLineDrawing
                 height={height}
                 consistentDirection={true}
                 delayRatio={delayRatio}
+                bare={bare}
             />
         );
     }

@@ -13,7 +13,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts  --outDir ./dist --jsx react -t ES2015 --module  umd --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration",
+        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts  --outDir ./dist --jsx react -t ES2016 --module  commonjs --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9001 -c .storybook"

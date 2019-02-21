@@ -5,6 +5,9 @@ interface InternalLineDrawingProps {
     delay: number;
     duration: number;
 
+    /// If true, do not render a wrapping svg.
+    bare?: boolean;
+
     /// The title of the SVG, or `null` if it should be hidden to
     /// screenreaders.
     title: string | null;
@@ -39,8 +42,6 @@ export default class InternalLineDrawing extends React.Component<
         uniqueId: null,
     };
 
-    _svg: SVGSVGElement | null = null;
-
     render() {
         const {
             title,
@@ -54,12 +55,37 @@ export default class InternalLineDrawing extends React.Component<
             height,
             delayRatio,
             desc,
+            bare,
         } = this.props;
+
         const {paths, pathLengths, uniqueId} = this.state;
         let durationMultiplier = 1.0 - (delayRatio || 0);
+
+        const contents = paths.map((path, i) => (
+            <path
+                style={{
+                    ...pathStyle,
+                    strokeDasharray: pathLengths[i],
+                    strokeDashoffset:
+                        (i % 2 === 0 || consistentDirection ? 1 : -1) *
+                        pathLengths[i],
+                    animationDelay: `${delay +
+                        (i * duration) / paths.length}ms`,
+                    animationDuration: `${(duration * durationMultiplier) /
+                        paths.length}ms`,
+                }}
+                className={css(styles.animatedLine)}
+                key={i}
+                d={path}
+            />
+        ));
+
+        if (bare) {
+            return contents;
+        }
+
         return (
             <svg
-                ref={svg => (this._svg = svg)}
                 viewBox={width && height ? `0 0 ${width} ${height}` : undefined}
                 className={
                     className == null ? css(styles.absoluteOverlay) : className
@@ -75,28 +101,7 @@ export default class InternalLineDrawing extends React.Component<
                 {desc && uniqueId ? (
                     <desc id={`${uniqueId}_desc`}>{desc}</desc>
                 ) : null}
-                <g>
-                    {paths.map((path, i) => (
-                        <path
-                            style={{
-                                ...pathStyle,
-                                strokeDasharray: pathLengths[i],
-                                strokeDashoffset:
-                                    (i % 2 === 0 || consistentDirection
-                                        ? 1
-                                        : -1) * pathLengths[i],
-                                animationDelay: `${delay +
-                                    (i * duration) / paths.length}ms`,
-                                animationDuration: `${(duration *
-                                    durationMultiplier) /
-                                    paths.length}ms`,
-                            }}
-                            className={css(styles.animatedLine)}
-                            key={i}
-                            d={path}
-                        />
-                    ))}
-                </g>
+                <g>{contents}</g>
             </svg>
         );
     }
