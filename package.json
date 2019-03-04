@@ -1,6 +1,6 @@
 {
     "name": "@khanacademy/khannotations",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "license": "MIT",
     "dependencies": {
         "durand-kerner": "1.0.0",
@@ -13,7 +13,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts  --outDir ./dist --jsx react -t ES2016 --module  commonjs --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration",
+        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts  --outDir ./dist --jsx react -t ES2016 --module  commonjs --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration && ./node_modules/.bin/webpack-cli ./dist/lib.js --output ./dist/index.js --mode production && webpack-cli --config ./webpack.lib.config.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9001 -c .storybook"
@@ -22,7 +22,7 @@
         "README.md",
         "dist"
     ],
-    "main": "./dist/lib.js",
+    "main": "./dist/index.js",
     "homepage": "https://khan.github.io/khannotations",
     "eslintConfig": {
         "extends": "react-app"
@@ -40,17 +40,18 @@
         "@storybook/react": "4.1.11",
         "@types/jest": "24.0.2",
         "@types/node": "10.12.21",
-        "@types/react-dom": "16.8.0",
         "@types/react": "16.8.2",
+        "@types/react-dom": "16.8.0",
         "@types/storybook__react": "4.0.0",
         "aphrodite": "2.2.3",
         "babel-loader": "8.0.5",
+        "react": "16.8.1",
         "react-dom": "16.8.1",
         "react-scripts": "2.1.5",
-        "react": "16.8.1",
-        "typedoc-plugin-no-inherit": "1.1.6",
         "typedoc": "0.14.2",
+        "typedoc-plugin-no-inherit": "1.1.6",
         "typescript": "3.3.3",
-        "webpack": "4.28.3"
+        "webpack": "4.28.3",
+        "webpack-cli": "^3.2.3"
     }
 }
