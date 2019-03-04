@@ -107,7 +107,7 @@ class _AnimatedLineDrawing extends React.Component {
         if (!this.state.triggered && this.props.group) {
             return React.createElement("div", { className: className });
         }
-        return (React.createElement(_LineDrawing_1.default, { title: title, className: className || "", delay: delay, duration: duration, d: this.props.d, pathStyle: this.props.pathStyle, width: width, height: height, consistentDirection: true, delayRatio: delayRatio, bare: bare }));
+        return (React.createElement(_LineDrawing_1.default, { title: title, className: className || "", delay: delay, duration: duration, d: this.props.d, pathStyle: this.props.pathStyle, pathClassName: this.props.pathClassName, width: width, height: height, consistentDirection: true, delayRatio: delayRatio, bare: bare }));
     }
 }
 /**

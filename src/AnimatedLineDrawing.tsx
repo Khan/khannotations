@@ -59,9 +59,14 @@ export interface AnimatedLineDrawingProps {
     pathStyle: React.CSSProperties;
 
     /**
-     * Class applies to the `<svg>` element this component renders.
+     * Class applies to the `<svg>` element rendered, if applicable
      */
     className?: string;
+
+    /**
+     * Class applied to the `<path>` element this component renders.
+     */
+    pathClassName?: string;
 
     /**
      * Percentage delay between segments.
@@ -222,6 +227,7 @@ class _AnimatedLineDrawing
                 duration={duration}
                 d={this.props.d}
                 pathStyle={this.props.pathStyle}
+                pathClassName={this.props.pathClassName}
                 width={width}
                 height={height}
                 consistentDirection={true}

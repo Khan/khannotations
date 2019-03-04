@@ -9,7 +9,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const React = __importStar(require("react"));
 const no_important_1 = require("aphrodite/no-important");
-class InternalLineDrawing extends React.Component {
+class InternalLineDrawing extends React.PureComponent {
     constructor() {
         super(...arguments);
         this.state = {
@@ -19,13 +19,13 @@ class InternalLineDrawing extends React.Component {
         };
     }
     render() {
-        const { title, delay, duration, pathStyle, consistentDirection, className, style, width, height, delayRatio, desc, bare, } = this.props;
+        const { title, delay, duration, pathStyle, consistentDirection, className, style, width, height, delayRatio, desc, bare, pathClassName, } = this.props;
         const { paths, pathLengths, uniqueId } = this.state;
         let durationMultiplier = 1.0 - (delayRatio || 0);
-        const contents = paths.map((path, i) => (React.createElement("path", { style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i], strokeDashoffset: (i % 2 === 0 || consistentDirection ? 1 : -1) *
+        const contents = paths.map((path, i) => (React.createElement("path", { key: `${i}_${duration}_${durationMultiplier}_${delay}_${pathLengths[i]}`, style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i], strokeDashoffset: (i % 2 === 0 || consistentDirection ? 1 : -1) *
                     pathLengths[i], animationDelay: `${delay +
                     (i * duration) / paths.length}ms`, animationDuration: `${(duration * durationMultiplier) /
-                    paths.length}ms` }), className: no_important_1.css(styles.animatedLine), key: i, d: path })));
+                    paths.length}ms` }), className: `${no_important_1.css(styles.animatedLine)} ${pathClassName || ""}`, d: path })));
         if (bare) {
             return contents;
         }
@@ -33,11 +33,6 @@ class InternalLineDrawing extends React.Component {
             title && uniqueId ? (React.createElement("title", { id: `${uniqueId}_title` }, title)) : null,
             desc && uniqueId ? (React.createElement("desc", { id: `${uniqueId}_desc` }, desc)) : null,
             React.createElement("g", null, contents)));
-    }
-    shouldComponentUpdate(newProps, newState) {
-        let { paths } = this.state;
-        return (paths.length !== newState.paths.length ||
-            paths.some((path, i) => path !== newState.paths[i]));
     }
     componentDidMount() {
         this.setState({

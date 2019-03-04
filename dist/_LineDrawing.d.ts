@@ -7,6 +7,7 @@ interface InternalLineDrawingProps {
     desc?: string;
     d: string;
     pathStyle: React.CSSProperties;
+    pathClassName?: string;
     consistentDirection?: boolean;
     className?: string;
     style?: React.CSSProperties;
@@ -19,10 +20,9 @@ declare type State = {
     pathLengths: number[];
     uniqueId: string | null;
 };
-export default class InternalLineDrawing extends React.Component<InternalLineDrawingProps> {
+export default class InternalLineDrawing extends React.PureComponent<InternalLineDrawingProps> {
     state: State;
     render(): JSX.Element | JSX.Element[];
-    shouldComponentUpdate(newProps: InternalLineDrawingProps, newState: State): boolean;
     componentDidMount(): void;
     static getDerivedStateFromProps(props: InternalLineDrawingProps, state: State): State;
 }

@@ -18,6 +18,7 @@ interface InternalLineDrawingProps {
 
     d: string;
     pathStyle: React.CSSProperties;
+    pathClassName?: string;
     // If true, we don't alternate directions for every path.
     consistentDirection?: boolean;
     className?: string;
@@ -33,7 +34,7 @@ type State = {
     uniqueId: string | null;
 };
 
-export default class InternalLineDrawing extends React.Component<
+export default class InternalLineDrawing extends React.PureComponent<
     InternalLineDrawingProps
 > {
     state: State = {
@@ -56,6 +57,7 @@ export default class InternalLineDrawing extends React.Component<
             delayRatio,
             desc,
             bare,
+            pathClassName,
         } = this.props;
 
         const {paths, pathLengths, uniqueId} = this.state;
@@ -63,6 +65,9 @@ export default class InternalLineDrawing extends React.Component<
 
         const contents = paths.map((path, i) => (
             <path
+                key={`${i}_${duration}_${durationMultiplier}_${delay}_${
+                    pathLengths[i]
+                }`}
                 style={{
                     ...pathStyle,
                     strokeDasharray: pathLengths[i],
@@ -74,8 +79,7 @@ export default class InternalLineDrawing extends React.Component<
                     animationDuration: `${(duration * durationMultiplier) /
                         paths.length}ms`,
                 }}
-                className={css(styles.animatedLine)}
-                key={i}
+                className={`${css(styles.animatedLine)} ${pathClassName || ""}`}
                 d={path}
             />
         ));
@@ -103,15 +107,6 @@ export default class InternalLineDrawing extends React.Component<
                 ) : null}
                 <g>{contents}</g>
             </svg>
-        );
-    }
-
-    shouldComponentUpdate(newProps: InternalLineDrawingProps, newState: State) {
-        let {paths} = this.state;
-
-        return (
-            paths.length !== newState.paths.length ||
-            paths.some((path, i) => path !== newState.paths[i])
         );
     }
 
