@@ -14,6 +14,12 @@ module.exports = {
         "react-dom": {
             commonjs2: "react-dom"
         },
+        aphrodite: {
+            commonjs2: "aphrodite"
+        },
+        "aphrodite/no-important": {
+            commonjs2: "aphrodite"
+        },
     },
     mode: "production"
 }

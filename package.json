@@ -1,6 +1,6 @@
 {
     "name": "@khanacademy/khannotations",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "license": "MIT",
     "dependencies": {
         "durand-kerner": "1.0.0",
