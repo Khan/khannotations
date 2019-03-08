@@ -1,4 +1,28 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -10,36 +34,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __importStar(require("react"));
-const AnimationGroup_1 = require("./AnimationGroup");
-const _LineDrawing_1 = __importDefault(require("./_LineDrawing"));
+var React = __importStar(require("react"));
+var AnimationGroup_1 = require("./AnimationGroup");
+var _LineDrawing_1 = __importDefault(require("./_LineDrawing"));
 /**
  * Connected implementation of [[AnimatedLineDrawing]].
  */
-class _AnimatedLineDrawing extends React.Component {
-    constructor() {
-        super(...arguments);
+var _AnimatedLineDrawing = /** @class */ (function (_super) {
+    __extends(_AnimatedLineDrawing, _super);
+    function _AnimatedLineDrawing() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         /** @hidden */
-        this.state = {
+        _this.state = {
             triggered: false,
             width: 0,
             height: 0,
         };
-        this.trigger = () => {
-            this.setState({
+        _this.trigger = function () {
+            _this.setState({
                 triggered: true,
             });
         };
-        this.estimatedDuration = null;
+        _this.estimatedDuration = null;
+        return _this;
     }
     /** @hidden */
-    componentDidMount() {
+    _AnimatedLineDrawing.prototype.componentDidMount = function () {
         if (this.props.group) {
             this.props.group.register(this);
         }
-    }
+    };
     /** @hidden */
-    componentDidUpdate(prevProps) {
+    _AnimatedLineDrawing.prototype.componentDidUpdate = function (prevProps) {
         if (this.props.group !== prevProps.group) {
             if (prevProps.group) {
                 prevProps.group.unregister(this);
@@ -48,43 +74,43 @@ class _AnimatedLineDrawing extends React.Component {
                 this.props.group.register(this);
             }
         }
-    }
+    };
     /** @hidden */
-    componentWillUnmount() {
+    _AnimatedLineDrawing.prototype.componentWillUnmount = function () {
         if (this.props.group) {
             this.props.group.unregister(this);
         }
-    }
+    };
     /** @hidden */
-    static getDerivedStateFromProps(props, state) {
-        const pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
-        const paths = props.d
+    _AnimatedLineDrawing.getDerivedStateFromProps = function (props, state) {
+        var pathEl = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        var paths = props.d
             .split("M")
             .slice(1)
-            .map(p => `M${p}`);
-        let tempDiv = document.createElement("div");
+            .map(function (p) { return "M" + p; });
+        var tempDiv = document.createElement("div");
         tempDiv.setAttribute("style", "position:absolute; visibility:hidden; width:0; height:0");
         document.body.appendChild(tempDiv);
-        let tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        var tempSvg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
         tempDiv.appendChild(tempSvg);
         tempSvg.appendChild(pathEl);
-        const strokeWidth = parseInt(String(props.pathStyle.strokeWidth)) || 1;
-        const { width, height } = paths.reduce((memo, pathD) => {
+        var strokeWidth = parseInt(String(props.pathStyle.strokeWidth)) || 1;
+        var _a = paths.reduce(function (memo, pathD) {
             pathEl.setAttribute("d", pathD);
-            const bbox = pathEl.getBBox();
+            var bbox = pathEl.getBBox();
             memo.width = Math.max(memo.width, bbox.x + bbox.width + strokeWidth);
             memo.height = Math.max(memo.height, bbox.y + bbox.height + strokeWidth);
             return memo;
-        }, { width: 0, height: 0 });
+        }, { width: 0, height: 0 }), width = _a.width, height = _a.height;
         document.body.removeChild(tempDiv);
-        return Object.assign({}, state, { width, height });
-    }
+        return __assign({}, state, { width: width, height: height });
+    };
     /** @hidden */
-    render() {
-        let { animation, className, delayRatio, title, bare } = this.props;
-        const { width, height } = this.state;
-        let duration;
-        let delay;
+    _AnimatedLineDrawing.prototype.render = function () {
+        var _a = this.props, animation = _a.animation, className = _a.className, delayRatio = _a.delayRatio, title = _a.title, bare = _a.bare;
+        var _b = this.state, width = _b.width, height = _b.height;
+        var duration;
+        var delay;
         if (animation.animation === "none") {
             duration = 0;
             delay = 0;
@@ -94,9 +120,9 @@ class _AnimatedLineDrawing extends React.Component {
             delay = animation.delay;
         }
         else {
-            let x = document.createElementNS("http://www.w3.org/2000/svg", "path");
+            var x = document.createElementNS("http://www.w3.org/2000/svg", "path");
             x.setAttribute("d", this.props.d);
-            let len = x.getTotalLength();
+            var len = x.getTotalLength();
             duration = (len * 10) / animation.speed;
             delay = animation.delay;
         }
@@ -108,8 +134,9 @@ class _AnimatedLineDrawing extends React.Component {
             return React.createElement("div", { className: className });
         }
         return (React.createElement(_LineDrawing_1.default, { title: title, className: className || "", delay: delay, duration: duration, d: this.props.d, pathStyle: this.props.pathStyle, pathClassName: this.props.pathClassName, width: width, height: height, consistentDirection: true, delayRatio: delayRatio, bare: bare }));
-    }
-}
+    };
+    return _AnimatedLineDrawing;
+}(React.Component));
 /**
  * Animate the stroke of an SVG path.
  *
@@ -131,12 +158,17 @@ class _AnimatedLineDrawing extends React.Component {
  *
  * @noInheritDoc
  */
-class AnimatedLineDrawing extends React.Component {
-    /** @hidden */
-    render() {
-        const { props } = this;
-        return (React.createElement(AnimationGroup_1.ConnectToAnimationGroup, null, group => React.createElement(_AnimatedLineDrawing, Object.assign({ group: group }, props))));
+var AnimatedLineDrawing = /** @class */ (function (_super) {
+    __extends(AnimatedLineDrawing, _super);
+    function AnimatedLineDrawing() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-}
+    /** @hidden */
+    AnimatedLineDrawing.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement(AnimationGroup_1.ConnectToAnimationGroup, null, function (group) { return React.createElement(_AnimatedLineDrawing, __assign({ group: group }, props)); }));
+    };
+    return AnimatedLineDrawing;
+}(React.Component));
 exports.AnimatedLineDrawing = AnimatedLineDrawing;
 //# sourceMappingURL=AnimatedLineDrawing.js.map

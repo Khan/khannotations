@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 function isType(token, type) {
     return token.type === type;
 }
-const PARAMS = {
+var PARAMS = {
     A: 7,
     a: 7,
     C: 6,
@@ -25,8 +25,8 @@ const PARAMS = {
     Z: 0,
     z: 0
 };
-class ParsedPath {
-    constructor(d) {
+var ParsedPath = /** @class */ (function () {
+    function ParsedPath(d) {
         this.COMMAND = 0;
         this.NUMBER = 1;
         this.EOD = 2;
@@ -34,8 +34,8 @@ class ParsedPath {
         this.parseData(d);
         this.processPoints();
     }
-    tokenize(d) {
-        const tokens = new Array();
+    ParsedPath.prototype.tokenize = function (d) {
+        var tokens = new Array();
         while (d !== '') {
             if (d.match(/^([ \t\r\n,]+)/)) {
                 d = d.substr(RegExp.$1.length);
@@ -45,7 +45,7 @@ class ParsedPath {
                 d = d.substr(RegExp.$1.length);
             }
             else if (d.match(/^(([-+]?[0-9]+(\.[0-9]*)?|[-+]?\.[0-9]+)([eE][-+]?[0-9]+)?)/)) {
-                tokens[tokens.length] = { type: this.NUMBER, text: `${parseFloat(RegExp.$1)}` };
+                tokens[tokens.length] = { type: this.NUMBER, text: "" + parseFloat(RegExp.$1) };
                 d = d.substr(RegExp.$1.length);
             }
             else {
@@ -55,16 +55,16 @@ class ParsedPath {
         }
         tokens[tokens.length] = { type: this.EOD, text: '' };
         return tokens;
-    }
-    parseData(d) {
-        const tokens = this.tokenize(d);
-        let index = 0;
-        let token = tokens[index];
-        let mode = 'BOD';
+    };
+    ParsedPath.prototype.parseData = function (d) {
+        var tokens = this.tokenize(d);
+        var index = 0;
+        var token = tokens[index];
+        var mode = 'BOD';
         this.segments = new Array();
         while (!isType(token, this.EOD)) {
-            let param_length;
-            const params = new Array();
+            var param_length = void 0;
+            var params = new Array();
             if (mode === 'BOD') {
                 if (token.text === 'M' || token.text === 'm') {
                     index++;
@@ -87,8 +87,8 @@ class ParsedPath {
                 }
             }
             if ((index + param_length) < tokens.length) {
-                for (let i = index; i < index + param_length; i++) {
-                    const numbeToken = tokens[i];
+                for (var i = index; i < index + param_length; i++) {
+                    var numbeToken = tokens[i];
                     if (isType(numbeToken, this.NUMBER)) {
                         params[params.length] = +numbeToken.text;
                     }
@@ -98,7 +98,7 @@ class ParsedPath {
                     }
                 }
                 if (typeof PARAMS[mode] === 'number') {
-                    const segment = { key: mode, data: params };
+                    var segment = { key: mode, data: params };
                     this.segments.push(segment);
                     index += param_length;
                     token = tokens[index];
@@ -116,23 +116,28 @@ class ParsedPath {
                 console.error('Path data ended before all parameters were found');
             }
         }
-    }
-    get closed() {
-        if (typeof this._closed === 'undefined') {
-            this._closed = false;
-            for (const s of this.segments) {
-                if (s.key.toLowerCase() === 'z') {
-                    this._closed = true;
+    };
+    Object.defineProperty(ParsedPath.prototype, "closed", {
+        get: function () {
+            if (typeof this._closed === 'undefined') {
+                this._closed = false;
+                for (var _i = 0, _a = this.segments; _i < _a.length; _i++) {
+                    var s = _a[_i];
+                    if (s.key.toLowerCase() === 'z') {
+                        this._closed = true;
+                    }
                 }
             }
-        }
-        return this._closed;
-    }
-    processPoints() {
-        let first = null;
-        let currentPoint = [0, 0];
-        for (let i = 0; i < this.segments.length; i++) {
-            const s = this.segments[i];
+            return this._closed;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    ParsedPath.prototype.processPoints = function () {
+        var first = null;
+        var currentPoint = [0, 0];
+        for (var i = 0; i < this.segments.length; i++) {
+            var s = this.segments[i];
             switch (s.key) {
                 case 'M':
                 case 'L':
@@ -200,77 +205,108 @@ class ParsedPath {
                 first = null;
             }
         }
-    }
-}
-class RoughPath {
-    constructor(d) {
+    };
+    return ParsedPath;
+}());
+var RoughPath = /** @class */ (function () {
+    function RoughPath(d) {
         this._position = [0, 0];
         this._first = null;
         this.bezierReflectionPoint = null;
         this.quadReflectionPoint = null;
         this.parsed = new ParsedPath(d);
     }
-    get segments() {
-        return this.parsed.segments;
-    }
-    get closed() {
-        return this.parsed.closed;
-    }
-    get linearPoints() {
-        if (!this._linearPoints) {
-            const lp = [];
-            let points = [];
-            for (const s of this.parsed.segments) {
-                const key = s.key.toLowerCase();
-                if (key === 'm' || key === 'z') {
-                    if (points.length) {
-                        lp.push(points);
-                        points = [];
+    Object.defineProperty(RoughPath.prototype, "segments", {
+        get: function () {
+            return this.parsed.segments;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RoughPath.prototype, "closed", {
+        get: function () {
+            return this.parsed.closed;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RoughPath.prototype, "linearPoints", {
+        get: function () {
+            if (!this._linearPoints) {
+                var lp = [];
+                var points = [];
+                for (var _i = 0, _a = this.parsed.segments; _i < _a.length; _i++) {
+                    var s = _a[_i];
+                    var key = s.key.toLowerCase();
+                    if (key === 'm' || key === 'z') {
+                        if (points.length) {
+                            lp.push(points);
+                            points = [];
+                        }
+                        if (key === 'z') {
+                            continue;
+                        }
                     }
-                    if (key === 'z') {
-                        continue;
+                    if (s.point) {
+                        points.push(s.point);
                     }
                 }
-                if (s.point) {
-                    points.push(s.point);
+                if (points.length) {
+                    lp.push(points);
+                    points = [];
                 }
+                this._linearPoints = lp;
             }
-            if (points.length) {
-                lp.push(points);
-                points = [];
-            }
-            this._linearPoints = lp;
-        }
-        return this._linearPoints;
-    }
-    get first() {
-        return this._first;
-    }
-    set first(v) {
-        this._first = v;
-    }
-    setPosition(x, y) {
+            return this._linearPoints;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RoughPath.prototype, "first", {
+        get: function () {
+            return this._first;
+        },
+        set: function (v) {
+            this._first = v;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RoughPath.prototype.setPosition = function (x, y) {
         this._position = [x, y];
         if (!this._first) {
             this._first = [x, y];
         }
-    }
-    get position() {
-        return this._position;
-    }
-    get x() {
-        return this._position[0];
-    }
-    get y() {
-        return this._position[1];
-    }
-}
+    };
+    Object.defineProperty(RoughPath.prototype, "position", {
+        get: function () {
+            return this._position;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RoughPath.prototype, "x", {
+        get: function () {
+            return this._position[0];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    Object.defineProperty(RoughPath.prototype, "y", {
+        get: function () {
+            return this._position[1];
+        },
+        enumerable: true,
+        configurable: true
+    });
+    return RoughPath;
+}());
 exports.RoughPath = RoughPath;
 // Algorithm as described in https://www.w3.org/TR/SVG/implnote.html
 // Code adapted from nsSVGPathDataParser.cpp in Mozilla 
 // https://hg.mozilla.org/mozilla-central/file/17156fbebbc8/content/svg/content/src/nsSVGPathDataParser.cpp#l887
-class RoughArcConverter {
-    constructor(from, to, radii, angle, largeArcFlag, sweepFlag) {
+var RoughArcConverter = /** @class */ (function () {
+    function RoughArcConverter(from, to, radii, angle, largeArcFlag, sweepFlag) {
         this._segIndex = 0;
         this._numSegs = 0;
         this._rx = 0;
@@ -285,17 +321,17 @@ class RoughArcConverter {
         if (from[0] === to[0] && from[1] === to[1]) {
             return;
         }
-        const radPerDeg = Math.PI / 180;
+        var radPerDeg = Math.PI / 180;
         this._rx = Math.abs(radii[0]);
         this._ry = Math.abs(radii[1]);
         this._sinPhi = Math.sin(angle * radPerDeg);
         this._cosPhi = Math.cos(angle * radPerDeg);
-        const x1dash = this._cosPhi * (from[0] - to[0]) / 2.0 + this._sinPhi * (from[1] - to[1]) / 2.0;
-        const y1dash = -this._sinPhi * (from[0] - to[0]) / 2.0 + this._cosPhi * (from[1] - to[1]) / 2.0;
-        let root = 0;
-        const numerator = this._rx * this._rx * this._ry * this._ry - this._rx * this._rx * y1dash * y1dash - this._ry * this._ry * x1dash * x1dash;
+        var x1dash = this._cosPhi * (from[0] - to[0]) / 2.0 + this._sinPhi * (from[1] - to[1]) / 2.0;
+        var y1dash = -this._sinPhi * (from[0] - to[0]) / 2.0 + this._cosPhi * (from[1] - to[1]) / 2.0;
+        var root = 0;
+        var numerator = this._rx * this._rx * this._ry * this._ry - this._rx * this._rx * y1dash * y1dash - this._ry * this._ry * x1dash * x1dash;
         if (numerator < 0) {
-            const s = Math.sqrt(1 - (numerator / (this._rx * this._rx * this._ry * this._ry)));
+            var s = Math.sqrt(1 - (numerator / (this._rx * this._rx * this._ry * this._ry)));
             this._rx = this._rx * s;
             this._ry = this._ry * s;
             root = 0;
@@ -304,13 +340,13 @@ class RoughArcConverter {
             root = (largeArcFlag === sweepFlag ? -1.0 : 1.0) *
                 Math.sqrt(numerator / (this._rx * this._rx * y1dash * y1dash + this._ry * this._ry * x1dash * x1dash));
         }
-        const cxdash = root * this._rx * y1dash / this._ry;
-        const cydash = -root * this._ry * x1dash / this._rx;
+        var cxdash = root * this._rx * y1dash / this._ry;
+        var cydash = -root * this._ry * x1dash / this._rx;
         this._C = [0, 0];
         this._C[0] = this._cosPhi * cxdash - this._sinPhi * cydash + (from[0] + to[0]) / 2.0;
         this._C[1] = this._sinPhi * cxdash + this._cosPhi * cydash + (from[1] + to[1]) / 2.0;
         this._theta = this.calculateVectorAngle(1.0, 0.0, (x1dash - cxdash) / this._rx, (y1dash - cydash) / this._ry);
-        let dtheta = this.calculateVectorAngle((x1dash - cxdash) / this._rx, (y1dash - cydash) / this._ry, (-x1dash - cxdash) / this._rx, (-y1dash - cydash) / this._ry);
+        var dtheta = this.calculateVectorAngle((x1dash - cxdash) / this._rx, (y1dash - cydash) / this._ry, (-x1dash - cxdash) / this._rx, (-y1dash - cydash) / this._ry);
         if ((!sweepFlag) && (dtheta > 0)) {
             dtheta -= 2 * Math.PI;
         }
@@ -321,24 +357,24 @@ class RoughArcConverter {
         this._delta = dtheta / this._numSegs;
         this._T = (8 / 3) * Math.sin(this._delta / 4) * Math.sin(this._delta / 4) / Math.sin(this._delta / 2);
     }
-    getNextSegment() {
+    RoughArcConverter.prototype.getNextSegment = function () {
         if (this._segIndex === this._numSegs) {
             return null;
         }
-        const cosTheta1 = Math.cos(this._theta);
-        const sinTheta1 = Math.sin(this._theta);
-        const theta2 = this._theta + this._delta;
-        const cosTheta2 = Math.cos(theta2);
-        const sinTheta2 = Math.sin(theta2);
-        const to = [
+        var cosTheta1 = Math.cos(this._theta);
+        var sinTheta1 = Math.sin(this._theta);
+        var theta2 = this._theta + this._delta;
+        var cosTheta2 = Math.cos(theta2);
+        var sinTheta2 = Math.sin(theta2);
+        var to = [
             this._cosPhi * this._rx * cosTheta2 - this._sinPhi * this._ry * sinTheta2 + this._C[0],
             this._sinPhi * this._rx * cosTheta2 + this._cosPhi * this._ry * sinTheta2 + this._C[1]
         ];
-        const cp1 = [
+        var cp1 = [
             this._from[0] + this._T * (-this._cosPhi * this._rx * sinTheta1 - this._sinPhi * this._ry * cosTheta1),
             this._from[1] + this._T * (-this._sinPhi * this._rx * sinTheta1 + this._cosPhi * this._ry * cosTheta1)
         ];
-        const cp2 = [
+        var cp2 = [
             to[0] + this._T * (this._cosPhi * this._rx * sinTheta2 + this._sinPhi * this._ry * cosTheta2),
             to[1] + this._T * (this._sinPhi * this._rx * sinTheta2 - this._cosPhi * this._ry * cosTheta2)
         ];
@@ -350,38 +386,41 @@ class RoughArcConverter {
             cp2: cp2,
             to: to
         };
-    }
-    calculateVectorAngle(ux, uy, vx, vy) {
-        const ta = Math.atan2(uy, ux);
-        const tb = Math.atan2(vy, vx);
+    };
+    RoughArcConverter.prototype.calculateVectorAngle = function (ux, uy, vx, vy) {
+        var ta = Math.atan2(uy, ux);
+        var tb = Math.atan2(vy, vx);
         if (tb >= ta)
             return tb - ta;
         return 2 * Math.PI - (ta - tb);
-    }
-}
+    };
+    return RoughArcConverter;
+}());
 exports.RoughArcConverter = RoughArcConverter;
-class PathFitter {
-    constructor(sets, closed) {
+var PathFitter = /** @class */ (function () {
+    function PathFitter(sets, closed) {
         this.sets = sets;
         this.closed = closed;
     }
-    fit(simplification) {
-        const outSets = [];
-        for (const set of this.sets) {
-            const length = set.length;
-            let estLength = Math.floor(simplification * length);
+    PathFitter.prototype.fit = function (simplification) {
+        var outSets = [];
+        for (var _i = 0, _a = this.sets; _i < _a.length; _i++) {
+            var set = _a[_i];
+            var length_1 = set.length;
+            var estLength = Math.floor(simplification * length_1);
             if (estLength < 5) {
-                if (length <= 5) {
+                if (length_1 <= 5) {
                     continue;
                 }
                 estLength = 5;
             }
             outSets.push(this.reduce(set, estLength));
         }
-        let d = '';
-        for (const set of outSets) {
-            for (let i = 0; i < set.length; i++) {
-                const point = set[i];
+        var d = '';
+        for (var _b = 0, outSets_1 = outSets; _b < outSets_1.length; _b++) {
+            var set = outSets_1[_b];
+            for (var i = 0; i < set.length; i++) {
+                var point = set[i];
                 if (i === 0) {
                     d += 'M' + point[0] + ',' + point[1];
                 }
@@ -394,25 +433,25 @@ class PathFitter {
             }
         }
         return d;
-    }
-    distance(p1, p2) {
+    };
+    PathFitter.prototype.distance = function (p1, p2) {
         return Math.sqrt(Math.pow(p1[0] - p2[0], 2) + Math.pow(p1[1] - p2[1], 2));
-    }
-    reduce(set, count) {
+    };
+    PathFitter.prototype.reduce = function (set, count) {
         if (set.length <= count) {
             return set;
         }
-        const points = set.slice(0);
+        var points = set.slice(0);
         while (points.length > count) {
-            const areas = [];
-            let minArea = -1;
-            let minIndex = -1;
-            for (let i = 1; i < (points.length - 1); i++) {
-                const a = this.distance(points[i - 1], points[i]);
-                const b = this.distance(points[i], points[i + 1]);
-                const c = this.distance(points[i - 1], points[i + 1]);
-                const s = (a + b + c) / 2.0;
-                const area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
+            var areas = [];
+            var minArea = -1;
+            var minIndex = -1;
+            for (var i = 1; i < (points.length - 1); i++) {
+                var a = this.distance(points[i - 1], points[i]);
+                var b = this.distance(points[i], points[i + 1]);
+                var c = this.distance(points[i - 1], points[i + 1]);
+                var s = (a + b + c) / 2.0;
+                var area = Math.sqrt(s * (s - a) * (s - b) * (s - c));
                 areas.push(area);
                 if ((minArea < 0) || (area < minArea)) {
                     minArea = area;
@@ -427,7 +466,8 @@ class PathFitter {
             }
         }
         return points;
-    }
-}
+    };
+    return PathFitter;
+}());
 exports.PathFitter = PathFitter;
 //# sourceMappingURL=path.js.map

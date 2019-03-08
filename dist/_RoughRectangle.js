@@ -1,4 +1,28 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -10,101 +34,107 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __importStar(require("react"));
-const no_important_1 = require("aphrodite/no-important");
-const rough_1 = __importDefault(require("./vendor/rough/src/wrappers/rough"));
-class RoughRectangle extends React.Component {
-    constructor() {
-        super(...arguments);
-        this.state = {
+var React = __importStar(require("react"));
+var no_important_1 = require("aphrodite/no-important");
+var rough_1 = __importDefault(require("./vendor/rough/src/wrappers/rough"));
+var RoughRectangle = /** @class */ (function (_super) {
+    __extends(RoughRectangle, _super);
+    function RoughRectangle() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.state = {
             paths: [],
             pathLengths: [],
             pathStyle: {},
         };
-        this._svg = null;
-        this._reset = () => {
-            let { x1, y1, x2, y2, roughness, stroke, strokeWidth, fill, fillStyle, } = this.props;
-            if (!this._svg) {
+        _this._svg = null;
+        _this._reset = function () {
+            var _a = _this.props, x1 = _a.x1, y1 = _a.y1, x2 = _a.x2, y2 = _a.y2, roughness = _a.roughness, stroke = _a.stroke, strokeWidth = _a.strokeWidth, fill = _a.fill, fillStyle = _a.fillStyle;
+            if (!_this._svg) {
                 return;
             }
-            let rsvg = rough_1.default.svg(this._svg);
-            const sline = rsvg.rectangle(x1, y1, x2 - x1, y2 - y1, {
-                roughness,
-                stroke,
-                strokeWidth,
-                fill,
-                fillStyle,
+            var rsvg = rough_1.default.svg(_this._svg);
+            var sline = rsvg.rectangle(x1, y1, x2 - x1, y2 - y1, {
+                roughness: roughness,
+                stroke: stroke,
+                strokeWidth: strokeWidth,
+                fill: fill,
+                fillStyle: fillStyle,
                 fillWeight: 4,
             });
-            const pathEl = sline.querySelector("path");
+            var pathEl = sline.querySelector("path");
             if (!pathEl) {
                 return;
             }
-            const paths = (pathEl.getAttribute("d") || "")
+            var paths = (pathEl.getAttribute("d") || "")
                 .split("M")
                 .slice(1)
-                .map(v => `M${v}`);
-            const pathLengths = paths.map(pathD => {
+                .map(function (v) { return "M" + v; });
+            var pathLengths = paths.map(function (pathD) {
                 pathEl.setAttribute("d", paths[0]);
                 return pathEl.getTotalLength();
             });
-            let pathStyle = {};
-            for (let i = 0; i < pathEl.style.length; ++i) {
-                const name = pathEl.style[i];
+            var pathStyle = {};
+            for (var i = 0; i < pathEl.style.length; ++i) {
+                var name_1 = pathEl.style[i];
                 // HACK: TS doesn't support indexing style by string.
-                const value = pathEl.style[pathEl.style[i]];
-                const reactName = name.replace(/-([a-z])/g, g => g[1].toUpperCase());
+                var value = pathEl.style[pathEl.style[i]];
+                var reactName = name_1.replace(/-([a-z])/g, function (g) {
+                    return g[1].toUpperCase();
+                });
                 pathStyle[reactName] = value;
             }
-            this.setState({
-                paths,
-                pathLengths,
-                pathStyle,
+            _this.setState({
+                paths: paths,
+                pathLengths: pathLengths,
+                pathStyle: pathStyle,
             });
         };
+        return _this;
     }
-    render() {
-        const { delay, duration, x1, y1, fillStyle } = this.props;
-        const { paths, pathLengths, pathStyle } = this.state;
-        return (React.createElement("svg", { ref: svg => (this._svg = svg), className: no_important_1.css(styles.absoluteOverlay), "aria-hidden": true },
-            React.createElement("g", null, paths.map((path, i) => (React.createElement("path", { style: Object.assign({}, pathStyle, { strokeDasharray: pathLengths[i] + 10, strokeDashoffset: (i % 2 ? -1 : 1) * (pathLengths[i] + 10), transformOrigin: `${x1}px ${y1}px`, animationDelay: `${delay +
-                        (i * duration) / paths.length}ms`, animationDuration: `${duration /
-                        paths.length}ms`, transform: fillStyle === "solid"
+    RoughRectangle.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, delay = _a.delay, duration = _a.duration, x1 = _a.x1, y1 = _a.y1, fillStyle = _a.fillStyle;
+        var _b = this.state, paths = _b.paths, pathLengths = _b.pathLengths, pathStyle = _b.pathStyle;
+        return (React.createElement("svg", { ref: function (svg) { return (_this._svg = svg); }, className: no_important_1.css(styles.absoluteOverlay), "aria-hidden": true },
+            React.createElement("g", null, paths.map(function (path, i) { return (React.createElement("path", { style: __assign({}, pathStyle, { strokeDasharray: pathLengths[i] + 10, strokeDashoffset: (i % 2 ? -1 : 1) * (pathLengths[i] + 10), transformOrigin: x1 + "px " + y1 + "px", animationDelay: delay +
+                        (i * duration) / paths.length + "ms", animationDuration: duration /
+                        paths.length + "ms", transform: fillStyle === "solid"
                         ? "scaleX(0)"
                         : undefined }), className: no_important_1.css(fillStyle === "solid"
                     ? styles.animatedFill
-                    : styles.animatedStroke), key: i, d: path }))))));
-    }
-    componentDidMount() {
+                    : styles.animatedStroke), key: i, d: path })); }))));
+    };
+    RoughRectangle.prototype.componentDidMount = function () {
         this._reset();
-    }
-    shouldComponentUpdate(newProps, newState) {
-        let { x1, y1, x2, y2 } = this.props;
-        let { paths } = this.state;
+    };
+    RoughRectangle.prototype.shouldComponentUpdate = function (newProps, newState) {
+        var _a = this.props, x1 = _a.x1, y1 = _a.y1, x2 = _a.x2, y2 = _a.y2;
+        var paths = this.state.paths;
         return (x1 !== newProps.x1 ||
             x2 !== newProps.x2 ||
             y1 !== newProps.y1 ||
             y2 !== newProps.y2 ||
             paths.length !== newState.paths.length ||
-            paths.some((path, idx) => path !== newState.paths[idx]));
-    }
-    componentDidUpdate(prevProps) {
-        let { x1, y1, x2, y2 } = this.props;
+            paths.some(function (path, idx) { return path !== newState.paths[idx]; }));
+    };
+    RoughRectangle.prototype.componentDidUpdate = function (prevProps) {
+        var _a = this.props, x1 = _a.x1, y1 = _a.y1, x2 = _a.x2, y2 = _a.y2;
         if (x1 !== prevProps.x1 ||
             x2 !== prevProps.x2 ||
             y1 !== prevProps.y1 ||
             y2 !== prevProps.y2) {
             this._reset();
         }
-    }
-}
+    };
+    return RoughRectangle;
+}(React.Component));
 exports.default = RoughRectangle;
-const lineAnimation = {
+var lineAnimation = {
     to: {
         strokeDashoffset: 0,
     },
 };
-const scaleAnimation = {
+var scaleAnimation = {
     from: {
         transform: "scaleX(0)",
     },
@@ -112,7 +142,7 @@ const scaleAnimation = {
         transform: "scaleX(1)",
     },
 };
-const styles = no_important_1.StyleSheet.create({
+var styles = no_important_1.StyleSheet.create({
     animatedStroke: {
         animationName: lineAnimation,
         animationTimingFunction: "linear",

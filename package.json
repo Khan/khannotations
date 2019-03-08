@@ -1,6 +1,6 @@
 {
     "name": "@khanacademy/khannotations",
-    "version": "0.1.2",
+    "version": "0.1.3",
     "license": "MIT",
     "dependencies": {
         "durand-kerner": "1.0.0",
@@ -13,7 +13,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts  --outDir ./dist --jsx react -t ES2016 --module  commonjs --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration && ./node_modules/.bin/webpack-cli ./dist/lib.js --output ./dist/index.js --mode production && webpack-cli --config ./webpack.lib.config.js",
+        "build": "rm -fr ./docs && rm -fr ./dist && react-scripts build && mv ./build ./docs && typedoc && tsc ./src/lib.ts ./src/react-app-env.d.ts --outDir ./dist --jsx react -t ES5 --module  commonjs --esModuleInterop --strict --moduleResolution node --sourceMap --declarationMap --declaration --lib es2015,dom && ./node_modules/.bin/webpack-cli ./dist/lib.js --output ./dist/index.js --mode production && webpack-cli --config ./webpack.lib.config.js",
         "test": "react-scripts test",
         "eject": "react-scripts eject",
         "storybook": "start-storybook -p 9001 -c .storybook"

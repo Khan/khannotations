@@ -1,4 +1,17 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -10,9 +23,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __importStar(require("react"));
-const react_dom_1 = __importDefault(require("react-dom"));
-const AnimationGroupContext = React.createContext(null);
+var React = __importStar(require("react"));
+var react_dom_1 = __importDefault(require("react-dom"));
+var AnimationGroupContext = React.createContext(null);
 /**
  * Pass a parent or grand-parent [[AnimationGroup]] to the child.
  *
@@ -131,15 +144,16 @@ exports.ConnectToAnimationGroup = AnimationGroupContext.Consumer;
  *
  * @noInheritDoc
  */
-class AnimationGroup extends React.Component {
-    constructor() {
-        super(...arguments);
+var AnimationGroup = /** @class */ (function (_super) {
+    __extends(AnimationGroup, _super);
+    function AnimationGroup() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         /// Animates that have not been triggered yet.
-        this._pending = [];
+        _this._pending = [];
         /// The Animate that is currently animating.
-        this._animating = null;
+        _this._animating = null;
         /// Animates that have been triggered. Includes _animating.
-        this._triggered = [];
+        _this._triggered = [];
         /**
          * Called when an [[Animate]] component is mounted, when the
          * AnimationGroup for that component changes, or when the estimated
@@ -148,14 +162,14 @@ class AnimationGroup extends React.Component {
          * [[Animate]] components must call this according to the rules set out
          * in the documentation for [[Animate]].
          */
-        this.register = (component) => {
-            if (this._triggered.indexOf(component) > -1) {
+        _this.register = function (component) {
+            if (_this._triggered.indexOf(component) > -1) {
                 return;
             }
-            if (this._pending.indexOf(component) === -1) {
-                this._pending = [...this._pending, component];
+            if (_this._pending.indexOf(component) === -1) {
+                _this._pending = _this._pending.concat([component]);
             }
-            setTimeout(this._maybeAdvanceAnimation, 0);
+            setTimeout(_this._maybeAdvanceAnimation, 0);
         };
         /**
          * Called when an [[Animate]] component is unmounted, or when the
@@ -164,36 +178,36 @@ class AnimationGroup extends React.Component {
          * [[Animate]] components must call this according to the rules set out
          * in the documentation for [[Animate]].
          */
-        this.unregister = (component) => {
-            this._pending = this._pending.filter(c => c !== component);
-            this._triggered = this._triggered.filter(c => c !== component);
-            this._animating =
-                this._animating === component ? null : this._animating;
-            setTimeout(this._maybeAdvanceAnimation, 0);
+        _this.unregister = function (component) {
+            _this._pending = _this._pending.filter(function (c) { return c !== component; });
+            _this._triggered = _this._triggered.filter(function (c) { return c !== component; });
+            _this._animating =
+                _this._animating === component ? null : _this._animating;
+            setTimeout(_this._maybeAdvanceAnimation, 0);
         };
         /// Start the next animation, if we're ready.
         ///
         /// We're ready if nothing is being animated, all child Animates
         /// have estimated durations, and we're not paused.
-        this._maybeAdvanceAnimation = () => {
-            if (this.props.paused) {
+        _this._maybeAdvanceAnimation = function () {
+            if (_this.props.paused) {
                 return;
             }
-            if (this._animating) {
+            if (_this._animating) {
                 return;
             }
-            if (this._pending.some(c => c.estimatedDuration === null)) {
+            if (_this._pending.some(function (c) { return c.estimatedDuration === null; })) {
                 // Wait until all components are estimated.
                 return;
             }
-            let components = this._pending.map(c => {
-                let domNode = react_dom_1.default.findDOMNode(c);
+            var components = _this._pending.map(function (c) {
+                var domNode = react_dom_1.default.findDOMNode(c);
                 if (!(domNode instanceof Element)) {
                     throw new Error("Animate components must render Elements.");
                 }
                 return [domNode, c];
             });
-            let nextComponent = components.sort(function (a, b) {
+            var nextComponent = components.sort(function (a, b) {
                 if (a[0] === b[0])
                     return 0;
                 if (a[0].compareDocumentPosition(b[0]) & 2) {
@@ -203,31 +217,33 @@ class AnimationGroup extends React.Component {
                 return -1;
             })[0];
             if (nextComponent) {
-                this._animating = nextComponent[1];
-                this._pending = this._pending.filter(c => c !== this._animating);
-                this._triggered = [...this._triggered, nextComponent[1]];
+                _this._animating = nextComponent[1];
+                _this._pending = _this._pending.filter(function (c) { return c !== _this._animating; });
+                _this._triggered = _this._triggered.concat([nextComponent[1]]);
                 nextComponent[1].trigger();
-                setTimeout(this._handleAnimationComplete, nextComponent[1].estimatedDuration || 0);
+                setTimeout(_this._handleAnimationComplete, nextComponent[1].estimatedDuration || 0);
             }
         };
         /// Mark the current animation as completed, and go to the next one if
         /// we're ready.
-        this._handleAnimationComplete = () => {
-            this._animating = null;
-            setTimeout(this._maybeAdvanceAnimation, 0);
+        _this._handleAnimationComplete = function () {
+            _this._animating = null;
+            setTimeout(_this._maybeAdvanceAnimation, 0);
         };
+        return _this;
     }
     /** @hidden */
-    componentDidUpdate(prevProps) {
+    AnimationGroup.prototype.componentDidUpdate = function (prevProps) {
         if (!this.props.paused && prevProps.paused) {
             setTimeout(this._maybeAdvanceAnimation, 0);
         }
-    }
+    };
     /** @hidden */
-    render() {
-        const { children } = this.props;
+    AnimationGroup.prototype.render = function () {
+        var children = this.props.children;
         return (React.createElement(AnimationGroupContext.Provider, { value: this }, children));
-    }
-}
+    };
+    return AnimationGroup;
+}(React.Component));
 exports.AnimationGroup = AnimationGroup;
 //# sourceMappingURL=AnimationGroup.js.map

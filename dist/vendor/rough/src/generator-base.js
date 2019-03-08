@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const hasSelf = typeof self !== 'undefined';
-class RoughGeneratorBase {
-    constructor(config, surface) {
+var hasSelf = typeof self !== 'undefined';
+var RoughGeneratorBase = /** @class */ (function () {
+    function RoughGeneratorBase(config, surface) {
         this.defaultOptions = {
             maxRandomnessOffset: 2,
             roughness: 1,
@@ -22,14 +22,14 @@ class RoughGeneratorBase {
             this.defaultOptions = this._options(this.config.options);
         }
     }
-    _options(options) {
+    RoughGeneratorBase.prototype._options = function (options) {
         return options ? Object.assign({}, this.defaultOptions, options) : this.defaultOptions;
-    }
-    _drawable(shape, sets, options) {
-        return { shape, sets: sets || [], options: options || this.defaultOptions };
-    }
-    getCanvasSize() {
-        const val = (w) => {
+    };
+    RoughGeneratorBase.prototype._drawable = function (shape, sets, options) {
+        return { shape: shape, sets: sets || [], options: options || this.defaultOptions };
+    };
+    RoughGeneratorBase.prototype.getCanvasSize = function () {
+        var val = function (w) {
             if (w && typeof w === 'object') {
                 if (w.baseVal && w.baseVal.value) {
                     return w.baseVal.value;
@@ -41,46 +41,46 @@ class RoughGeneratorBase {
             return [val(this.surface.width), val(this.surface.height)];
         }
         return [100, 100];
-    }
-    computePolygonSize(points) {
+    };
+    RoughGeneratorBase.prototype.computePolygonSize = function (points) {
         if (points.length) {
-            let left = points[0][0];
-            let right = points[0][0];
-            let top = points[0][1];
-            let bottom = points[0][1];
-            for (let i = 1; i < points.length; i++) {
+            var left = points[0][0];
+            var right = points[0][0];
+            var top_1 = points[0][1];
+            var bottom = points[0][1];
+            for (var i = 1; i < points.length; i++) {
                 left = Math.min(left, points[i][0]);
                 right = Math.max(right, points[i][0]);
-                top = Math.min(top, points[i][1]);
+                top_1 = Math.min(top_1, points[i][1]);
                 bottom = Math.max(bottom, points[i][1]);
             }
-            return [(right - left), (bottom - top)];
+            return [(right - left), (bottom - top_1)];
         }
         return [0, 0];
-    }
-    polygonPath(points) {
-        let d = '';
+    };
+    RoughGeneratorBase.prototype.polygonPath = function (points) {
+        var d = '';
         if (points.length) {
-            d = `M${points[0][0]},${points[0][1]}`;
-            for (let i = 1; i < points.length; i++) {
-                d = `${d} L${points[i][0]},${points[i][1]}`;
+            d = "M" + points[0][0] + "," + points[0][1];
+            for (var i = 1; i < points.length; i++) {
+                d = d + " L" + points[i][0] + "," + points[i][1];
             }
         }
         return d;
-    }
-    computePathSize(d) {
-        let size = [0, 0];
+    };
+    RoughGeneratorBase.prototype.computePathSize = function (d) {
+        var size = [0, 0];
         if (hasSelf && self.document) {
             try {
-                const ns = 'http://www.w3.org/2000/svg';
-                const svg = self.document.createElementNS(ns, 'svg');
+                var ns = 'http://www.w3.org/2000/svg';
+                var svg = self.document.createElementNS(ns, 'svg');
                 svg.setAttribute('width', '0');
                 svg.setAttribute('height', '0');
-                const pathNode = self.document.createElementNS(ns, 'path');
+                var pathNode = self.document.createElementNS(ns, 'path');
                 pathNode.setAttribute('d', d);
                 svg.appendChild(pathNode);
                 self.document.body.appendChild(svg);
-                const bb = pathNode.getBBox();
+                var bb = pathNode.getBBox();
                 if (bb) {
                     size[0] = bb.width || 0;
                     size[1] = bb.height || 0;
@@ -89,18 +89,19 @@ class RoughGeneratorBase {
             }
             catch (err) { }
         }
-        const canvasSize = this.getCanvasSize();
+        var canvasSize = this.getCanvasSize();
         if (!(size[0] * size[1])) {
             size = canvasSize;
         }
         return size;
-    }
-    toPaths(drawable) {
-        const sets = drawable.sets || [];
-        const o = drawable.options || this.defaultOptions;
-        const paths = [];
-        for (const drawing of sets) {
-            let path = null;
+    };
+    RoughGeneratorBase.prototype.toPaths = function (drawable) {
+        var sets = drawable.sets || [];
+        var o = drawable.options || this.defaultOptions;
+        var paths = [];
+        for (var _i = 0, sets_1 = sets; _i < sets_1.length; _i++) {
+            var drawing = sets_1[_i];
+            var path = null;
             switch (drawing.type) {
                 case 'path':
                     path = {
@@ -130,10 +131,10 @@ class RoughGeneratorBase {
                     };
                     break;
                 case 'path2Dpattern': {
-                    const size = drawing.size;
-                    const pattern = {
+                    var size = drawing.size;
+                    var pattern = {
                         x: 0, y: 0, width: 1, height: 1,
-                        viewBox: `0 0 ${Math.round(size[0])} ${Math.round(size[1])}`,
+                        viewBox: "0 0 " + Math.round(size[0]) + " " + Math.round(size[1]),
                         patternUnits: 'objectBoundingBox',
                         path: this.fillSketch(drawing, o)
                     };
@@ -151,9 +152,9 @@ class RoughGeneratorBase {
             }
         }
         return paths;
-    }
-    fillSketch(drawing, o) {
-        let fweight = o.fillWeight;
+    };
+    RoughGeneratorBase.prototype.fillSketch = function (drawing, o) {
+        var fweight = o.fillWeight;
         if (fweight < 0) {
             fweight = o.strokeWidth / 2;
         }
@@ -163,28 +164,30 @@ class RoughGeneratorBase {
             strokeWidth: fweight,
             fill: 'none'
         };
-    }
-    opsToPath(drawing) {
-        let path = '';
-        for (const item of drawing.ops) {
-            const data = item.data;
+    };
+    RoughGeneratorBase.prototype.opsToPath = function (drawing) {
+        var path = '';
+        for (var _i = 0, _a = drawing.ops; _i < _a.length; _i++) {
+            var item = _a[_i];
+            var data = item.data;
             switch (item.op) {
                 case 'move':
-                    path += `M${data[0]} ${data[1]} `;
+                    path += "M" + data[0] + " " + data[1] + " ";
                     break;
                 case 'bcurveTo':
-                    path += `C${data[0]} ${data[1]}, ${data[2]} ${data[3]}, ${data[4]} ${data[5]} `;
+                    path += "C" + data[0] + " " + data[1] + ", " + data[2] + " " + data[3] + ", " + data[4] + " " + data[5] + " ";
                     break;
                 case 'qcurveTo':
-                    path += `Q${data[0]} ${data[1]}, ${data[2]} ${data[3]} `;
+                    path += "Q" + data[0] + " " + data[1] + ", " + data[2] + " " + data[3] + " ";
                     break;
                 case 'lineTo':
-                    path += `L${data[0]} ${data[1]} `;
+                    path += "L" + data[0] + " " + data[1] + " ";
                     break;
             }
         }
         return path.trim();
-    }
-}
+    };
+    return RoughGeneratorBase;
+}());
 exports.RoughGeneratorBase = RoughGeneratorBase;
 //# sourceMappingURL=generator-base.js.map

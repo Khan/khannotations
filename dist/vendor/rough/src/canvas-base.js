@@ -1,16 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const hasDocument = typeof document !== 'undefined';
-class RoughCanvasBase {
-    constructor(canvas) {
+var hasDocument = typeof document !== 'undefined';
+var RoughCanvasBase = /** @class */ (function () {
+    function RoughCanvasBase(canvas) {
         this.canvas = canvas;
         this.ctx = this.canvas.getContext('2d');
     }
-    draw(drawable) {
-        const sets = drawable.sets || [];
-        const o = drawable.options || this.getDefaultOptions();
-        const ctx = this.ctx;
-        for (const drawing of sets) {
+    RoughCanvasBase.prototype.draw = function (drawable) {
+        var sets = drawable.sets || [];
+        var o = drawable.options || this.getDefaultOptions();
+        var ctx = this.ctx;
+        for (var _i = 0, sets_1 = sets; _i < sets_1.length; _i++) {
+            var drawing = sets_1[_i];
             switch (drawing.type) {
                 case 'path':
                     ctx.save();
@@ -31,18 +32,18 @@ class RoughCanvasBase {
                 case 'path2Dfill': {
                     this.ctx.save();
                     this.ctx.fillStyle = o.fill || '';
-                    const p2d = new Path2D(drawing.path);
+                    var p2d = new Path2D(drawing.path);
                     this.ctx.fill(p2d);
                     this.ctx.restore();
                     break;
                 }
                 case 'path2Dpattern': {
-                    const doc = this.canvas.ownerDocument || (hasDocument && document);
+                    var doc = this.canvas.ownerDocument || (hasDocument && document);
                     if (doc) {
-                        const size = drawing.size;
-                        const hcanvas = doc.createElement('canvas');
-                        const hcontext = hcanvas.getContext('2d');
-                        const bbox = this.computeBBox(drawing.path);
+                        var size = drawing.size;
+                        var hcanvas = doc.createElement('canvas');
+                        var hcontext = hcanvas.getContext('2d');
+                        var bbox = this.computeBBox(drawing.path);
                         if (bbox && (bbox.width || bbox.height)) {
                             hcanvas.width = this.canvas.width;
                             hcanvas.height = this.canvas.height;
@@ -55,7 +56,7 @@ class RoughCanvasBase {
                         this.fillSketch(hcontext, drawing, o);
                         this.ctx.save();
                         this.ctx.fillStyle = this.ctx.createPattern(hcanvas, 'repeat');
-                        const p2d = new Path2D(drawing.path);
+                        var p2d = new Path2D(drawing.path);
                         this.ctx.fill(p2d);
                         this.ctx.restore();
                     }
@@ -66,28 +67,28 @@ class RoughCanvasBase {
                 }
             }
         }
-    }
-    computeBBox(d) {
+    };
+    RoughCanvasBase.prototype.computeBBox = function (d) {
         if (hasDocument) {
             try {
-                const ns = 'http://www.w3.org/2000/svg';
-                const svg = document.createElementNS(ns, 'svg');
+                var ns = 'http://www.w3.org/2000/svg';
+                var svg = document.createElementNS(ns, 'svg');
                 svg.setAttribute('width', '0');
                 svg.setAttribute('height', '0');
-                const pathNode = self.document.createElementNS(ns, 'path');
+                var pathNode = self.document.createElementNS(ns, 'path');
                 pathNode.setAttribute('d', d);
                 svg.appendChild(pathNode);
                 document.body.appendChild(svg);
-                const bbox = pathNode.getBBox();
+                var bbox = pathNode.getBBox();
                 document.body.removeChild(svg);
                 return bbox;
             }
             catch (err) { }
         }
         return null;
-    }
-    fillSketch(ctx, drawing, o) {
-        let fweight = o.fillWeight;
+    };
+    RoughCanvasBase.prototype.fillSketch = function (ctx, drawing, o) {
+        var fweight = o.fillWeight;
         if (fweight < 0) {
             fweight = o.strokeWidth / 2;
         }
@@ -96,11 +97,12 @@ class RoughCanvasBase {
         ctx.lineWidth = fweight;
         this._drawToContext(ctx, drawing);
         ctx.restore();
-    }
-    _drawToContext(ctx, drawing) {
+    };
+    RoughCanvasBase.prototype._drawToContext = function (ctx, drawing) {
         ctx.beginPath();
-        for (const item of drawing.ops) {
-            const data = item.data;
+        for (var _i = 0, _a = drawing.ops; _i < _a.length; _i++) {
+            var item = _a[_i];
+            var data = item.data;
             switch (item.op) {
                 case 'move':
                     ctx.moveTo(data[0], data[1]);
@@ -122,7 +124,8 @@ class RoughCanvasBase {
         else {
             ctx.stroke();
         }
-    }
-}
+    };
+    return RoughCanvasBase;
+}());
 exports.RoughCanvasBase = RoughCanvasBase;
 //# sourceMappingURL=canvas-base.js.map

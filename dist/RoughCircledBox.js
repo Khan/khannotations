@@ -1,4 +1,28 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
 var __importStar = (this && this.__importStar) || function (mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
@@ -10,13 +34,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const React = __importStar(require("react"));
-const _MeasureLines_1 = require("./_MeasureLines");
-const _RoughEllipse_1 = __importDefault(require("./_RoughEllipse"));
-const no_important_1 = require("aphrodite/no-important");
-const durand_kerner_1 = __importDefault(require("durand-kerner"));
-const _isIE_1 = __importDefault(require("./_isIE"));
-const AnimationGroup_1 = require("./AnimationGroup");
+var React = __importStar(require("react"));
+var _MeasureLines_1 = require("./_MeasureLines");
+var _RoughEllipse_1 = __importDefault(require("./_RoughEllipse"));
+var no_important_1 = require("aphrodite/no-important");
+var durand_kerner_1 = __importDefault(require("durand-kerner"));
+var _isIE_1 = __importDefault(require("./_isIE"));
+var AnimationGroup_1 = require("./AnimationGroup");
 /**
  * Calculate the dimensions of an ellipse that bounds the provided rectangle.
  *
@@ -31,7 +55,7 @@ const AnimationGroup_1 = require("./AnimationGroup");
  */
 function getEllipseBoundingRectangle(w, h) {
     // This simplifies our arithmetic.
-    let d = h - w;
+    var d = h - w;
     // From https://math.stackexchange.com/questions/623922/ellipse-bounding-rectangle/623933#623933 we know that:
     //
     //  [1] b = a + 1/2 * d
@@ -41,7 +65,7 @@ function getEllipseBoundingRectangle(w, h) {
     //  = 0
     // This can be rearranged into a quartic, which we can get the roots for.
     // (Note: x^0 is the first coefficient and x^4 is the last)
-    let roots = durand_kerner_1.default([
+    var roots = durand_kerner_1.default([
         -w * w * d * d,
         -4 * d * w * w,
         4 * d * d - 4 * h * h - 4 * w * w,
@@ -51,26 +75,27 @@ function getEllipseBoundingRectangle(w, h) {
     // The real parts are stored in roots[0] and the imaginary parts are stored
     // in roots[1]. I think there is only ever one real positive solution. If
     // I'm wrong, we pick the wider one.
-    let a = 0;
-    for (let i = 0; i < roots[0].length; ++i) {
+    var a = 0;
+    for (var i = 0; i < roots[0].length; ++i) {
         if (Math.abs(roots[1][i]) < 1e5) {
             a = Math.max(a, roots[0][i]);
         }
     }
-    let b = a + 0.5 * d;
+    var b = a + 0.5 * d;
     return {
-        a,
-        b,
+        a: a,
+        b: b,
     };
 }
 /**
  * Connected implementation of [[RoughCircledBox]].
  */
-class _RoughCircledBox extends React.Component {
-    constructor() {
-        super(...arguments);
+var _RoughCircledBox = /** @class */ (function (_super) {
+    __extends(_RoughCircledBox, _super);
+    function _RoughCircledBox() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
         /** @ignore */
-        this.state = {
+        _this.state = {
             triggered: false,
             x: NaN,
             y: NaN,
@@ -83,65 +108,67 @@ class _RoughCircledBox extends React.Component {
             marginTop: NaN,
             marginBottom: NaN,
         };
-        this.trigger = () => {
-            this.setState({
+        _this.trigger = function () {
+            _this.setState({
                 triggered: true,
             });
         };
-        this.estimatedDuration = null;
-        this._node = null;
-        this._interval = null;
+        _this.estimatedDuration = null;
+        _this._node = null;
+        _this._interval = null;
+        return _this;
     }
     /** @ignore */
-    componentDidMount() {
+    _RoughCircledBox.prototype.componentDidMount = function () {
+        var _this = this;
         if (_isIE_1.default()) {
             return;
         }
-        this._interval = setInterval(() => {
-            if (this._node) {
-                let offset = _MeasureLines_1.cumulativeOffset(this._node);
-                const boundingRect = this._node.getBoundingClientRect();
-                const marginBottom = this.props.marginBottom || 0;
-                const marginLeft = this.props.marginLeft || 0;
-                const marginRight = this.props.marginRight || 0;
-                const marginTop = this.props.marginTop || 0;
-                const x = offset.left +
+        this._interval = setInterval(function () {
+            if (_this._node) {
+                var offset = _MeasureLines_1.cumulativeOffset(_this._node);
+                var boundingRect = _this._node.getBoundingClientRect();
+                var marginBottom = _this.props.marginBottom || 0;
+                var marginLeft = _this.props.marginLeft || 0;
+                var marginRight = _this.props.marginRight || 0;
+                var marginTop = _this.props.marginTop || 0;
+                var x = offset.left +
                     boundingRect.width / 2 -
                     marginLeft / 2 +
                     marginRight / 2;
-                const y = offset.top +
+                var y = offset.top +
                     boundingRect.height / 2 -
                     marginTop / 2 +
                     marginBottom / 2;
-                const width = boundingRect.width + marginLeft + marginRight;
-                const height = boundingRect.height + marginTop + marginBottom;
-                if (x !== this.state.x ||
-                    y !== this.state.y ||
-                    width !== this.state.width ||
-                    height !== this.state.height ||
-                    marginBottom !== this.state.marginBottom ||
-                    marginLeft !== this.state.marginLeft ||
-                    marginRight !== this.state.marginRight ||
-                    marginTop !== this.state.marginTop) {
-                    let bb = getEllipseBoundingRectangle(width, height);
-                    this.setState({
-                        x,
-                        y,
-                        width,
-                        height,
+                var width = boundingRect.width + marginLeft + marginRight;
+                var height = boundingRect.height + marginTop + marginBottom;
+                if (x !== _this.state.x ||
+                    y !== _this.state.y ||
+                    width !== _this.state.width ||
+                    height !== _this.state.height ||
+                    marginBottom !== _this.state.marginBottom ||
+                    marginLeft !== _this.state.marginLeft ||
+                    marginRight !== _this.state.marginRight ||
+                    marginTop !== _this.state.marginTop) {
+                    var bb = getEllipseBoundingRectangle(width, height);
+                    _this.setState({
+                        x: x,
+                        y: y,
+                        width: width,
+                        height: height,
                         a: bb.a,
                         b: bb.b,
-                        marginBottom,
-                        marginLeft,
-                        marginRight,
-                        marginTop,
+                        marginBottom: marginBottom,
+                        marginLeft: marginLeft,
+                        marginRight: marginRight,
+                        marginTop: marginTop,
                     });
                 }
             }
         }, 500);
-    }
+    };
     /** @ignore */
-    componentWillUnmount() {
+    _RoughCircledBox.prototype.componentWillUnmount = function () {
         if (this._interval) {
             clearInterval(this._interval);
             this._interval = null;
@@ -149,11 +176,12 @@ class _RoughCircledBox extends React.Component {
         if (this.props.group) {
             this.props.group.unregister(this);
         }
-    }
+    };
     /** @ignore */
-    render() {
-        const { children, delay, roughStyle, group } = this.props;
-        const { x, y, a, b } = this.state;
+    _RoughCircledBox.prototype.render = function () {
+        var _this = this;
+        var _a = this.props, children = _a.children, delay = _a.delay, roughStyle = _a.roughStyle, group = _a.group;
+        var _b = this.state, x = _b.x, y = _b.y, a = _b.a, b = _b.b;
         if (_isIE_1.default()) {
             return children;
         }
@@ -162,16 +190,17 @@ class _RoughCircledBox extends React.Component {
             this.estimatedDuration = 400;
             group.register(this);
         }
-        return (React.createElement("div", { ref: node => (this._node = node), className: no_important_1.css(styles.paragraph) },
+        return (React.createElement("div", { ref: function (node) { return (_this._node = node); }, className: no_important_1.css(styles.paragraph) },
             children,
             !isNaN(x) &&
                 !isNaN(y) &&
                 !isNaN(a) &&
                 !isNaN(b) &&
                 (!group || this.state.triggered) && (React.createElement(_RoughEllipse_1.default, { x: x, y: y, width: a * 2, height: b * 2, roughness: roughStyle.roughness, stroke: roughStyle.stroke, strokeWidth: roughStyle.strokeWidth, duration: 400, delay: delay }))));
-    }
-}
-const styles = no_important_1.StyleSheet.create({
+    };
+    return _RoughCircledBox;
+}(React.Component));
+var styles = no_important_1.StyleSheet.create({
     paragraph: {
         display: "inline-block",
     },
@@ -188,12 +217,17 @@ const styles = no_important_1.StyleSheet.create({
  *
  * @noInheritDoc
  */
-class RoughCircledBox extends React.Component {
-    /** @hidden */
-    render() {
-        const { props } = this;
-        return (React.createElement(AnimationGroup_1.ConnectToAnimationGroup, null, group => React.createElement(_RoughCircledBox, Object.assign({ group: group }, props))));
+var RoughCircledBox = /** @class */ (function (_super) {
+    __extends(RoughCircledBox, _super);
+    function RoughCircledBox() {
+        return _super !== null && _super.apply(this, arguments) || this;
     }
-}
+    /** @hidden */
+    RoughCircledBox.prototype.render = function () {
+        var props = this.props;
+        return (React.createElement(AnimationGroup_1.ConnectToAnimationGroup, null, function (group) { return React.createElement(_RoughCircledBox, __assign({ group: group }, props)); }));
+    };
+    return RoughCircledBox;
+}(React.Component));
 exports.RoughCircledBox = RoughCircledBox;
 //# sourceMappingURL=RoughCircledBox.js.map

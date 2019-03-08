@@ -1,33 +1,38 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const hasDocument = typeof document !== 'undefined';
-class RoughSVGBase {
-    constructor(svg) {
+var hasDocument = typeof document !== 'undefined';
+var RoughSVGBase = /** @class */ (function () {
+    function RoughSVGBase(svg) {
         this.svg = svg;
     }
-    get defs() {
-        const doc = this.svg.ownerDocument || (hasDocument && document);
-        if (doc) {
-            if (!this._defs) {
-                const dnode = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
-                if (this.svg.firstChild) {
-                    this.svg.insertBefore(dnode, this.svg.firstChild);
+    Object.defineProperty(RoughSVGBase.prototype, "defs", {
+        get: function () {
+            var doc = this.svg.ownerDocument || (hasDocument && document);
+            if (doc) {
+                if (!this._defs) {
+                    var dnode = doc.createElementNS('http://www.w3.org/2000/svg', 'defs');
+                    if (this.svg.firstChild) {
+                        this.svg.insertBefore(dnode, this.svg.firstChild);
+                    }
+                    else {
+                        this.svg.appendChild(dnode);
+                    }
+                    this._defs = dnode;
                 }
-                else {
-                    this.svg.appendChild(dnode);
-                }
-                this._defs = dnode;
             }
-        }
-        return this._defs || null;
-    }
-    draw(drawable) {
-        const sets = drawable.sets || [];
-        const o = drawable.options || this.getDefaultOptions();
-        const doc = this.svg.ownerDocument || window.document;
-        const g = doc.createElementNS('http://www.w3.org/2000/svg', 'g');
-        for (const drawing of sets) {
-            let path = null;
+            return this._defs || null;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RoughSVGBase.prototype.draw = function (drawable) {
+        var sets = drawable.sets || [];
+        var o = drawable.options || this.getDefaultOptions();
+        var doc = this.svg.ownerDocument || window.document;
+        var g = doc.createElementNS('http://www.w3.org/2000/svg', 'g');
+        for (var _i = 0, sets_1 = sets; _i < sets_1.length; _i++) {
+            var drawing = sets_1[_i];
+            var path = null;
             switch (drawing.type) {
                 case 'path': {
                     path = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
@@ -62,25 +67,25 @@ class RoughSVGBase {
                         console.error('Cannot render path2Dpattern. No defs/document defined.');
                     }
                     else {
-                        const size = drawing.size;
-                        const pattern = doc.createElementNS('http://www.w3.org/2000/svg', 'pattern');
-                        const id = `rough-${Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER || 999999))}`;
+                        var size = drawing.size;
+                        var pattern = doc.createElementNS('http://www.w3.org/2000/svg', 'pattern');
+                        var id = "rough-" + Math.floor(Math.random() * (Number.MAX_SAFE_INTEGER || 999999));
                         pattern.setAttribute('id', id);
                         pattern.setAttribute('x', '0');
                         pattern.setAttribute('y', '0');
                         pattern.setAttribute('width', '1');
                         pattern.setAttribute('height', '1');
                         pattern.setAttribute('height', '1');
-                        pattern.setAttribute('viewBox', `0 0 ${Math.round(size[0])} ${Math.round(size[1])}`);
+                        pattern.setAttribute('viewBox', "0 0 " + Math.round(size[0]) + " " + Math.round(size[1]));
                         pattern.setAttribute('patternUnits', 'objectBoundingBox');
-                        const patternPath = this.fillSketch(doc, drawing, o);
+                        var patternPath = this.fillSketch(doc, drawing, o);
                         pattern.appendChild(patternPath);
                         this.defs.appendChild(pattern);
                         path = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
                         path.setAttribute('d', drawing.path || '');
                         path.style.stroke = 'none';
                         path.style.strokeWidth = '0';
-                        path.style.fill = `url(#${id})`;
+                        path.style.fill = "url(#" + id + ")";
                     }
                     break;
                 }
@@ -90,19 +95,20 @@ class RoughSVGBase {
             }
         }
         return g;
-    }
-    fillSketch(doc, drawing, o) {
-        let fweight = o.fillWeight;
+    };
+    RoughSVGBase.prototype.fillSketch = function (doc, drawing, o) {
+        var fweight = o.fillWeight;
         if (fweight < 0) {
             fweight = o.strokeWidth / 2;
         }
-        const path = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
+        var path = doc.createElementNS('http://www.w3.org/2000/svg', 'path');
         path.setAttribute('d', this.opsToPath(drawing));
         path.style.stroke = o.fill || null;
         path.style.strokeWidth = fweight + '';
         path.style.fill = 'none';
         return path;
-    }
-}
+    };
+    return RoughSVGBase;
+}());
 exports.RoughSVGBase = RoughSVGBase;
 //# sourceMappingURL=svg-base.js.map

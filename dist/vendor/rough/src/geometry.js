@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-class Segment {
-    constructor(p1, p2) {
+var Segment = /** @class */ (function () {
+    function Segment(p1, p2) {
         this.xi = Number.MAX_VALUE;
         this.yi = Number.MAX_VALUE;
         this.px1 = p1[0];
@@ -13,17 +13,17 @@ class Segment {
         this.c = this.px2 * this.py1 - this.px1 * this.py2;
         this._undefined = ((this.a === 0) && (this.b === 0) && (this.c === 0));
     }
-    isUndefined() {
+    Segment.prototype.isUndefined = function () {
         return this._undefined;
-    }
-    intersects(otherSegment) {
+    };
+    Segment.prototype.intersects = function (otherSegment) {
         if (this.isUndefined() || otherSegment.isUndefined()) {
             return false;
         }
-        let grad1 = Number.MAX_VALUE;
-        let grad2 = Number.MAX_VALUE;
-        let int1 = 0, int2 = 0;
-        const a = this.a, b = this.b, c = this.c;
+        var grad1 = Number.MAX_VALUE;
+        var grad2 = Number.MAX_VALUE;
+        var int1 = 0, int2 = 0;
+        var a = this.a, b = this.b, c = this.c;
         if (Math.abs(b) > 0.00001) {
             grad1 = -a / b;
             int1 = -c / b;
@@ -98,7 +98,8 @@ class Segment {
             return false;
         }
         return true;
-    }
-}
+    };
+    return Segment;
+}());
 exports.Segment = Segment;
 //# sourceMappingURL=geometry.js.map

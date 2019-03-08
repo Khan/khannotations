@@ -1,63 +1,84 @@
 "use strict";
+var __extends = (this && this.__extends) || (function () {
+    var extendStatics = function (d, b) {
+        extendStatics = Object.setPrototypeOf ||
+            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
+            function (d, b) { for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p]; };
+        return extendStatics(d, b);
+    };
+    return function (d, b) {
+        extendStatics(d, b);
+        function __() { this.constructor = d; }
+        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
+    };
+})();
 Object.defineProperty(exports, "__esModule", { value: true });
-const generator_1 = require("./generator");
-const canvas_base_1 = require("./canvas-base");
-class RoughCanvas extends canvas_base_1.RoughCanvasBase {
-    constructor(canvas, config) {
-        super(canvas);
-        this.gen = new generator_1.RoughGenerator(config || null, this.canvas);
+var generator_1 = require("./generator");
+var canvas_base_1 = require("./canvas-base");
+var RoughCanvas = /** @class */ (function (_super) {
+    __extends(RoughCanvas, _super);
+    function RoughCanvas(canvas, config) {
+        var _this = _super.call(this, canvas) || this;
+        _this.gen = new generator_1.RoughGenerator(config || null, _this.canvas);
+        return _this;
     }
-    get generator() {
-        return this.gen;
-    }
-    getDefaultOptions() {
+    Object.defineProperty(RoughCanvas.prototype, "generator", {
+        get: function () {
+            return this.gen;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    RoughCanvas.prototype.getDefaultOptions = function () {
         return this.gen.defaultOptions;
-    }
-    line(x1, y1, x2, y2, options) {
-        const d = this.gen.line(x1, y1, x2, y2, options);
+    };
+    RoughCanvas.prototype.line = function (x1, y1, x2, y2, options) {
+        var d = this.gen.line(x1, y1, x2, y2, options);
         this.draw(d);
         return d;
-    }
-    rectangle(x, y, width, height, options) {
-        const d = this.gen.rectangle(x, y, width, height, options);
+    };
+    RoughCanvas.prototype.rectangle = function (x, y, width, height, options) {
+        var d = this.gen.rectangle(x, y, width, height, options);
         this.draw(d);
         return d;
-    }
-    ellipse(x, y, width, height, options) {
-        const d = this.gen.ellipse(x, y, width, height, options);
+    };
+    RoughCanvas.prototype.ellipse = function (x, y, width, height, options) {
+        var d = this.gen.ellipse(x, y, width, height, options);
         this.draw(d);
         return d;
-    }
-    circle(x, y, diameter, options) {
-        const d = this.gen.circle(x, y, diameter, options);
+    };
+    RoughCanvas.prototype.circle = function (x, y, diameter, options) {
+        var d = this.gen.circle(x, y, diameter, options);
         this.draw(d);
         return d;
-    }
-    linearPath(points, options) {
-        const d = this.gen.linearPath(points, options);
+    };
+    RoughCanvas.prototype.linearPath = function (points, options) {
+        var d = this.gen.linearPath(points, options);
         this.draw(d);
         return d;
-    }
-    polygon(points, options) {
-        const d = this.gen.polygon(points, options);
+    };
+    RoughCanvas.prototype.polygon = function (points, options) {
+        var d = this.gen.polygon(points, options);
         this.draw(d);
         return d;
-    }
-    arc(x, y, width, height, start, stop, closed = false, options) {
-        const d = this.gen.arc(x, y, width, height, start, stop, closed, options);
+    };
+    RoughCanvas.prototype.arc = function (x, y, width, height, start, stop, closed, options) {
+        if (closed === void 0) { closed = false; }
+        var d = this.gen.arc(x, y, width, height, start, stop, closed, options);
         this.draw(d);
         return d;
-    }
-    curve(points, options) {
-        const d = this.gen.curve(points, options);
+    };
+    RoughCanvas.prototype.curve = function (points, options) {
+        var d = this.gen.curve(points, options);
         this.draw(d);
         return d;
-    }
-    path(d, options) {
-        const drawing = this.gen.path(d, options);
+    };
+    RoughCanvas.prototype.path = function (d, options) {
+        var drawing = this.gen.path(d, options);
         this.draw(drawing);
         return drawing;
-    }
-}
+    };
+    return RoughCanvas;
+}(canvas_base_1.RoughCanvasBase));
 exports.RoughCanvas = RoughCanvas;
 //# sourceMappingURL=canvas.js.map

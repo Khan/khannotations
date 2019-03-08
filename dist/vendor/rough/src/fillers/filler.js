@@ -1,12 +1,12 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const hachure_filler_1 = require("./hachure-filler");
-const zigzag_filler_1 = require("./zigzag-filler");
-const hatch_filler_1 = require("./hatch-filler");
-const dot_filler_1 = require("./dot-filler");
-const fillers = {};
+var hachure_filler_1 = require("./hachure-filler");
+var zigzag_filler_1 = require("./zigzag-filler");
+var hatch_filler_1 = require("./hatch-filler");
+var dot_filler_1 = require("./dot-filler");
+var fillers = {};
 function getFiller(o, helper) {
-    let fillerName = o.fillStyle || 'hachure';
+    var fillerName = o.fillStyle || 'hachure';
     if (!fillers[fillerName]) {
         switch (fillerName) {
             case 'zigzag':

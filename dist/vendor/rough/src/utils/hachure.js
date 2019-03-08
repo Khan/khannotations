@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const geometry_1 = require("../geometry");
-class HachureIterator {
-    constructor(top, bottom, left, right, gap, sinAngle, cosAngle, tanAngle) {
+var geometry_1 = require("../geometry");
+var HachureIterator = /** @class */ (function () {
+    function HachureIterator(top, bottom, left, right, gap, sinAngle, cosAngle, tanAngle) {
         this.deltaX = 0;
         this.hGap = 0;
         this.top = top;
@@ -26,26 +26,26 @@ class HachureIterator {
             this.sRight = new geometry_1.Segment([right, bottom], [right, top]);
         }
     }
-    nextLine() {
+    HachureIterator.prototype.nextLine = function () {
         if (Math.abs(this.sinAngle) < 0.0001) {
             if (this.pos < this.right) {
-                const line = [this.pos, this.top, this.pos, this.bottom];
+                var line = [this.pos, this.top, this.pos, this.bottom];
                 this.pos += this.gap;
                 return line;
             }
         }
         else if (Math.abs(this.sinAngle) > 0.9999) {
             if (this.pos < this.bottom) {
-                const line = [this.left, this.pos, this.right, this.pos];
+                var line = [this.left, this.pos, this.right, this.pos];
                 this.pos += this.gap;
                 return line;
             }
         }
         else {
-            let xLower = this.pos - this.deltaX / 2;
-            let xUpper = this.pos + this.deltaX / 2;
-            let yLower = this.bottom;
-            let yUpper = this.top;
+            var xLower = this.pos - this.deltaX / 2;
+            var xUpper = this.pos + this.deltaX / 2;
+            var yLower = this.bottom;
+            var yUpper = this.top;
             if (this.pos < (this.right + this.deltaX)) {
                 while (((xLower < this.left) && (xUpper < this.left)) || ((xLower > this.right) && (xUpper > this.right))) {
                     this.pos += this.hGap;
@@ -55,7 +55,7 @@ class HachureIterator {
                         return null;
                     }
                 }
-                const s = new geometry_1.Segment([xLower, yLower], [xUpper, yUpper]);
+                var s = new geometry_1.Segment([xLower, yLower], [xUpper, yUpper]);
                 if (this.sLeft && s.intersects(this.sLeft)) {
                     xLower = s.xi;
                     yLower = s.yi;
@@ -68,13 +68,14 @@ class HachureIterator {
                     xLower = this.right - (xLower - this.left);
                     xUpper = this.right - (xUpper - this.left);
                 }
-                const line = [xLower, yLower, xUpper, yUpper];
+                var line = [xLower, yLower, xUpper, yUpper];
                 this.pos += this.hGap;
                 return line;
             }
         }
         return null;
-    }
-}
+    };
+    return HachureIterator;
+}());
 exports.HachureIterator = HachureIterator;
 //# sourceMappingURL=hachure.js.map
