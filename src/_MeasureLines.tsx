@@ -61,13 +61,13 @@ export default class MeasureLines extends React.Component<Props> {
                         top: Infinity,
                         bottom,
                     };
-                    memo[bottom].left = Math.min(memo[bottom].left, left);
-                    memo[bottom].right = Math.max(memo[bottom].right, right);
-                    memo[bottom].top = Math.min(
+                    memo[bottom].left = Math.round(Math.min(memo[bottom].left, left));
+                    memo[bottom].right = Math.round(Math.max(memo[bottom].right, right));
+                    memo[bottom].top = Math.round(Math.min(
                         memo[bottom].top,
                         node.offsetTop,
-                    );
-                    memo[bottom].bottom = bottom;
+                    ));
+                    memo[bottom].bottom = Math.round(bottom);
 
                     return memo;
                 },
