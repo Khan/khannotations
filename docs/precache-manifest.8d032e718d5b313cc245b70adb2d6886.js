@@ -4,15 +4,15 @@ self.__precacheManifest = [
     "url": "/khannotations/static/js/runtime~main.c697033e.js"
   },
   {
-    "revision": "f9e860df8d00285150e1",
-    "url": "/khannotations/static/js/main.f9e860df.chunk.js"
+    "revision": "ff041c359b8aa477609e",
+    "url": "/khannotations/static/js/main.ff041c35.chunk.js"
   },
   {
     "revision": "fd789a5b8a7549df4bb8",
     "url": "/khannotations/static/js/2.fd789a5b.chunk.js"
   },
   {
-    "revision": "fc822726845f6220c9e4c9bac08deefc",
+    "revision": "6c640cc061bc7b53f97399d1cffd7eb7",
     "url": "/khannotations/index.html"
   }
 ];
