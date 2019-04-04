@@ -9,8 +9,17 @@ It uses [RoughJS](https://roughjs.com/) and is made by
 
 ## Installation
 
-Khannotations is currently in early development. Once it's used in production at
-Khan Academy, this section will be updated.
+To add Khannotations to a project, run this from the project directory:
+
+```
+npm install --save @khanacademy/khannotations aphrodite
+```
+
+If your project uses yarn, instead run this:
+
+```
+yarn add @khanacademy/khannotations aphrodite
+```
 
 ## Usage
 
@@ -31,7 +40,7 @@ with:
 ```jsx
 // This example is in TypeScript.
 // For JavaScript, omit UnderlineStyle/AnimationStrategy.
-import {RoughUnderline, UnderlineStyle, AnimationStrategy} from "@khan/khannotations";
+import {RoughUnderline, UnderlineStyle, AnimationStrategy} from "@khanacademy/khannotations";
 
 // For JavaScript, omit ": AnimationStategy".
 let speedAnimation: AnimationStrategy = {
@@ -57,7 +66,7 @@ const MyComponent = () => (
         Lorem{" "}
         <RoughUnderline animation={speedAnimation} roughStyle={underlineStyle}>
             ipsum
-        </RoughUnderline>{" }
+        </RoughUnderline>{" "}
         dolor sit amet.
     </span>
 );
@@ -70,14 +79,14 @@ your prefered styles. For example, you could make a drop-in replacement for
 `<u>` with:
 
 ```
-const MyUnderline = (children) => (
+const MyUnderline = (props) => (
     <RoughUnderline animation={speedAnimation} roughStyle={underlineStyle}>
-        {children}
+        {props.children}
     </RoughUnderline>
 );
 ```
 
-See the API docs for full usage.
+See the [API docs](https://khan.github.io/khannotations/api/) for full usage.
 
 ### RoughCircledBox
 
