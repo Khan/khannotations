@@ -159,8 +159,11 @@ var styles = no_important_1.StyleSheet.create({
         left: 0,
         top: 0,
         // Chrome/Safari do not render anything with width/height 0
-        width: 1,
-        height: 1,
+        // Chrome/Safari round positioning aggressively in fractional
+        // zoom levels. The rounding is very problematic at very low
+        // sizes, so I'm using 100 here instead of 1.
+        width: 100,
+        height: 100,
         pointerEvents: "none",
     },
 });

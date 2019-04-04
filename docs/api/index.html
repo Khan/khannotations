@@ -66,9 +66,9 @@
 				<a href="https://www.khanacademy.org/">Khan Academy</a>.</p>
 				<p><a href="https://khan.github.io/khannotations"><img src="https://khan.github.io/khannotations/demo.gif" alt="View live demo"></a></p>
 				<h2 id="installation">Installation</h2>
-				<p>Khannotations is currently in early development. Once it&#39;s used in production at
-				Khan Academy, this section will be updated.</p>
-				<h2 id="usage">Usage</h2>
+				<p>To add Khannotations to a project, run this from the project directory:</p>
+				<pre><code><span class="hljs-built_in">npm</span> install --save @khanacademy/khannotations aphrodite</code></pre><p>If your project uses yarn, instead run this:</p>
+				<pre><code><span class="hljs-selector-tag">yarn</span> <span class="hljs-selector-tag">add</span> @<span class="hljs-keyword">khanacademy</span>/<span class="hljs-keyword">khannotations</span> aphrodite</code></pre><h2 id="usage">Usage</h2>
 				<h3 id="inline-annotations">Inline annotations</h3>
 				<p>Khannotations provides two React components that render inline annotations:
 					RoughHighlight and RoughUnderline. You should be able to replace elements like
@@ -78,7 +78,7 @@
 				<p>with:</p>
 				<pre><code class="language-jsx"><span class="hljs-comment">// This example is in TypeScript.</span>
 <span class="hljs-comment">// For JavaScript, omit UnderlineStyle/AnimationStrategy.</span>
-<span class="hljs-keyword">import</span> {RoughUnderline, UnderlineStyle, AnimationStrategy} <span class="hljs-keyword">from</span> <span class="hljs-string">"@khan/khannotations"</span>;
+<span class="hljs-keyword">import</span> {RoughUnderline, UnderlineStyle, AnimationStrategy} <span class="hljs-keyword">from</span> <span class="hljs-string">"@khanacademy/khannotations"</span>;
 
 <span class="hljs-comment">// For JavaScript, omit ": AnimationStategy".</span>
 <span class="hljs-keyword">let</span> speedAnimation: AnimationStrategy = {
@@ -104,7 +104,7 @@
         Lorem{" "}
         <span class="hljs-tag">&lt;<span class="hljs-name">RoughUnderline</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">{speedAnimation}</span> <span class="hljs-attr">roughStyle</span>=<span class="hljs-string">{underlineStyle}</span>&gt;</span>
             ipsum
-        <span class="hljs-tag">&lt;/<span class="hljs-name">RoughUnderline</span>&gt;</span>{" }
+        <span class="hljs-tag">&lt;/<span class="hljs-name">RoughUnderline</span>&gt;</span>{" "}
         dolor sit amet.
     <span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span></span>
 );</code></pre>
@@ -113,11 +113,11 @@
 					lot, you can always make a wrapper component that renders an annotation with
 					your prefered styles. For example, you could make a drop-in replacement for
 				<code>&lt;u&gt;</code> with:</p>
-				<pre><code><span class="hljs-keyword">const</span> MyUnderline = <span class="hljs-function">(<span class="hljs-params">children</span>) =&gt;</span> (
+				<pre><code><span class="hljs-keyword">const</span> MyUnderline = <span class="hljs-function">(<span class="hljs-params">props</span>) =&gt;</span> (
     <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">RoughUnderline</span> <span class="hljs-attr">animation</span>=<span class="hljs-string">{speedAnimation}</span> <span class="hljs-attr">roughStyle</span>=<span class="hljs-string">{underlineStyle}</span>&gt;</span>
-        {children}
+        {props.children}
     <span class="hljs-tag">&lt;/<span class="hljs-name">RoughUnderline</span>&gt;</span></span>
-);</code></pre><p>See the API docs for full usage.</p>
+);</code></pre><p>See the <a href="https://khan.github.io/khannotations/api/">API docs</a> for full usage.</p>
 				<h3 id="roughcircledbox">RoughCircledBox</h3>
 				<p>RoughCircledBox is a block element that draws a rough ellipse just touching
 				its native bounding box.</p>
