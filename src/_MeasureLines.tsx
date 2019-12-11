@@ -1,5 +1,4 @@
 import * as React from "react";
-import isIE from "./_isIE";
 
 type Rect = {
     top: number;
@@ -101,11 +100,6 @@ export default class MeasureLines extends React.Component<Props> {
     }
     render() {
         const {children, text} = this.props;
-
-        if (isIE()) {
-            return <span style={{position: "relative"}}>{text}</span>;
-        }
-
         const nodes: Array<React.ReactNode> = [];
 
         React.Children.forEach(text, child => {

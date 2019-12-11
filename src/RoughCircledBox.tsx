@@ -3,7 +3,6 @@ import {cumulativeOffset} from "./_MeasureLines";
 import RoughEllipse from "./_RoughEllipse";
 import {StyleSheet, css} from "aphrodite/no-important";
 import getRoots from "durand-kerner";
-import isIE from "./_isIE";
 import {
     AnimationGroup,
     Animate,
@@ -155,10 +154,6 @@ class _RoughCircledBox
 
     /** @ignore */
     componentDidMount() {
-        if (isIE()) {
-            return;
-        }
-
         this._interval = setInterval(() => {
             if (this._node) {
                 let offset = cumulativeOffset(this._node);
@@ -226,10 +221,6 @@ class _RoughCircledBox
     render() {
         const {children, delay, roughStyle, group} = this.props;
         const {x, y, a, b} = this.state;
-
-        if (isIE()) {
-            return children;
-        }
 
         if (group && !this.state.triggered) {
             // TODO(joshuan): Do not hardcode this
