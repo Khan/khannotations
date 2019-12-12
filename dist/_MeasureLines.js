@@ -19,12 +19,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
     result["default"] = mod;
     return result;
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = __importStar(require("react"));
-var _isIE_1 = __importDefault(require("./_isIE"));
 function cumulativeOffset(element) {
     if (!element) {
         return {
@@ -98,9 +94,6 @@ var MeasureLines = /** @class */ (function (_super) {
     MeasureLines.prototype.render = function () {
         var _this = this;
         var _a = this.props, children = _a.children, text = _a.text;
-        if (_isIE_1.default()) {
-            return React.createElement("span", { style: { position: "relative" } }, text);
-        }
         var nodes = [];
         React.Children.forEach(text, function (child) {
             if (typeof child === "string") {

@@ -39,7 +39,6 @@ var _MeasureLines_1 = require("./_MeasureLines");
 var _RoughEllipse_1 = __importDefault(require("./_RoughEllipse"));
 var no_important_1 = require("aphrodite/no-important");
 var durand_kerner_1 = __importDefault(require("durand-kerner"));
-var _isIE_1 = __importDefault(require("./_isIE"));
 var AnimationGroup_1 = require("./AnimationGroup");
 /**
  * Calculate the dimensions of an ellipse that bounds the provided rectangle.
@@ -121,9 +120,6 @@ var _RoughCircledBox = /** @class */ (function (_super) {
     /** @ignore */
     _RoughCircledBox.prototype.componentDidMount = function () {
         var _this = this;
-        if (_isIE_1.default()) {
-            return;
-        }
         this._interval = setInterval(function () {
             if (_this._node) {
                 var offset = _MeasureLines_1.cumulativeOffset(_this._node);
@@ -182,9 +178,6 @@ var _RoughCircledBox = /** @class */ (function (_super) {
         var _this = this;
         var _a = this.props, children = _a.children, delay = _a.delay, roughStyle = _a.roughStyle, group = _a.group;
         var _b = this.state, x = _b.x, y = _b.y, a = _b.a, b = _b.b;
-        if (_isIE_1.default()) {
-            return children;
-        }
         if (group && !this.state.triggered) {
             // TODO(joshuan): Do not hardcode this
             this.estimatedDuration = 400;
